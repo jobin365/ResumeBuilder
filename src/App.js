@@ -42,16 +42,19 @@ function App() {
   ]);
   const [projects, setProjects] = useState([
     {
+      id: uuidv4(),
       title: "Resume Builder",
       skills: "React",
       desc: "Resume Builder is a web application that allows you to create, edit and download a resume.",
     },
     {
+      id: uuidv4(),
       title: "MyTasks",
       skills: "React,Node,MongoDB",
       desc: "MyTasks is a web application that allows you to create, edit, delete and maintain multiple lists of tasks.",
     },
     {
+      id: uuidv4(),
       title: "Keeper",
       skills: "React,Node,MongoDB",
       desc: "Keeper is a web application that allows you to create, edit, delete and maintain notes.",
@@ -60,11 +63,13 @@ function App() {
 
   const [education, setEducation] = useState([
     {
+      id: uuidv4(),
       degree: "Master of Computer Applications",
       institute: "Lovely Professional University",
       duration: "June 2021 - May 2023",
     },
     {
+      id: uuidv4(),
       degree: "Bachelor of Science in Computer Science",
       institute: "University of Calicut",
       duration: "June 2018 - May 2021",
@@ -90,8 +95,10 @@ function App() {
   };
 
   const handleExperienceChange = (event) => {
-    const { name,value, id } = event.target;
+    const { name,value} = event.target;
+    const id=event.target.parentNode.parentNode.getAttribute("id")
     const newExperience = experience.map((experience) => {
+    console.log(id)
       if (id === experience.id) {
         return {
           ...experience,
@@ -177,29 +184,26 @@ function App() {
           />
           <br />
           {experience.map((experience,index) => (
-            <>
+            <div key={experience.id} id={experience.id}>
               <Input
-                id={experience.id}
                 name="company"
                 placeholder={"Company name "+(index+1)}
                 value={experience.company}
                 onChange={handleExperienceChange}
               /><br/>
               <Input
-                id={experience.id}
                 name="designation"
                 placeholder={"Designation"+(index+1)}
                 value={experience.designation}
                 onChange={handleExperienceChange}
               /><br/>
               <Input
-                id={experience.id}
                 name="duration"
                 placeholder={"Duration"+(index+1)}
                 value={experience.duration}
                 onChange={handleExperienceChange}
               /><br/>
-            </>
+            </div>
           ))}
         </div>
         {w >= 1330 && <Divider orientation="vertical" />}
@@ -212,7 +216,6 @@ function App() {
             ref={resume}
           >
             <div
-              className="leftResume"
               style={{
                 width: "350px",
                 padding: "25px",
@@ -229,16 +232,18 @@ function App() {
               <h2>Summary</h2>
               <p>{summary}</p>
               <h2>Experience</h2>
-              {experience.map((exp) => (
+              {experience.map((experience) => (
                 <History
-                  title={exp.designation}
-                  place={exp.company}
-                  duration={exp.duration}
+                  key={experience.id}
+                  title={experience.designation}
+                  place={experience.company}
+                  duration={experience.duration}
                 />
               ))}
               <h2>Education</h2>
               {education.map((education) => (
                 <History
+                  key={education.id}
                   title={education.degree}
                   place={education.institute}
                   duration={education.duration}
@@ -246,7 +251,6 @@ function App() {
               ))}
             </div>
             <div
-              className="rightResume"
               style={{
                 width: "350px",
                 padding: "25px",
@@ -257,6 +261,7 @@ function App() {
               <h2>Projects</h2>
               {projects.map((project) => (
                 <Project
+                  key={project.id}
                   title={project.title}
                   tools={project.skills}
                   desc={project.desc}
