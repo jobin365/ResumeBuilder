@@ -1,7 +1,7 @@
 import "./App.css";
 import Input from "@mui/joy/Input";
 import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import Divider from "@mui/joy/Divider";
 import Textarea from "@mui/joy/Textarea";
 import Button from "@mui/joy/Button";
@@ -12,6 +12,8 @@ import linkedinIcon from "./images/linkedin.png";
 import Online from "./components/Online";
 import History from "./components/History";
 import Project from "./components/Project";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 
 function App() {
   const [name, setName] = useState("Jobin John K");
@@ -95,43 +97,64 @@ function App() {
   };
 
   const handleExperienceChange = (event) => {
-    const { name,value} = event.target;
-    const id=event.target.parentNode.parentNode.getAttribute("id")
+    const { name, value } = event.target;
+    const id = event.target.parentNode.parentNode.parentNode.getAttribute("id");
     const newExperience = experience.map((experience) => {
-    console.log(id)
       if (id === experience.id) {
         return {
           ...experience,
-          [name]: value
+          [name]: value,
         };
       } else {
         return experience;
       }
     });
-    setExperience(newExperience)
+    setExperience(newExperience);
   };
 
-  
+  const handleExperienceAdd = () => {
+    setExperience([
+      {
+        id: uuidv4(),
+        designation: "",
+        company: "",
+        duration: "",
+      },
+      ...experience,
+    ]);
+  };
+
+  const handleExperienceDelete = (event) => {
+    const id = event.target.parentNode.parentNode.getAttribute("id");
+    setExperience(
+      experience.filter((experience) => {
+        return experience.id !== id;
+      })
+    );
+  };
 
   return (
     <div style={{ fontFamily: "Helvetica" }}>
       <div className="header">
         <div className="header-content">
-          <div>
-            <h1 className="heading" style={{ marginTop: "0px" }}>
-              Resume Builder
-            </h1>
-          </div>
+          <h1
+            className="heading"
+            style={{ marginTop: "0px", marginBottom: "0px" }}
+          >
+            Resume Builder
+          </h1>
           <div>
             <Button onClick={handleGeneratePdf}>Download</Button>
           </div>
         </div>
         <div>
-          <Divider className="top-divider" />
+          <Divider />
         </div>
       </div>
       <div className="body">
         <div className="editor" style={{ width: "500px", margin: "25px" }}>
+          <h3 style={{ marginTop: "0px" }}>About</h3>
+          <br />
           <Input
             placeholder="Name"
             value={name}
@@ -183,26 +206,42 @@ function App() {
             name="summary"
           />
           <br />
-          {experience.map((experience,index) => (
+          <div className="editor-heading">
+            <h3 style={{ marginTop: "0px" }}>Experience</h3>
+            <Button onClick={handleExperienceAdd}>
+              <AddIcon />
+            </Button>
+          </div>
+
+          <br />
+          {experience.map((experience, index) => (
             <div key={experience.id} id={experience.id}>
-              <Input
-                name="company"
-                placeholder={"Company name "+(index+1)}
-                value={experience.company}
-                onChange={handleExperienceChange}
-              /><br/>
+              <div className="editor-heading">
+                <Input
+                  name="company"
+                  placeholder={"Company name " + (index + 1)}
+                  value={experience.company}
+                  onChange={handleExperienceChange}
+                />
+                <Button color="danger" onClick={handleExperienceDelete}>
+                  <DeleteIcon />
+                </Button>
+              </div>
+              <br />
               <Input
                 name="designation"
-                placeholder={"Designation"+(index+1)}
+                placeholder={"Designation" + (index + 1)}
                 value={experience.designation}
                 onChange={handleExperienceChange}
-              /><br/>
+              />
+              <br />
               <Input
                 name="duration"
-                placeholder={"Duration"+(index+1)}
+                placeholder={"Duration" + (index + 1)}
                 value={experience.duration}
                 onChange={handleExperienceChange}
-              /><br/>
+              />
+              <br />
             </div>
           ))}
         </div>
