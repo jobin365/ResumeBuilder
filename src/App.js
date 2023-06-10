@@ -98,7 +98,7 @@ function App() {
 
   const handleExperienceChange = (event) => {
     const { name, value } = event.target;
-    const id = event.target.parentNode.parentNode.parentNode.getAttribute("id");
+    const id = event.currentTarget.getAttribute("id");
     const newExperience = experience.map((experience) => {
       if (id === experience.id) {
         return {
@@ -125,7 +125,7 @@ function App() {
   };
 
   const handleExperienceDelete = (event) => {
-    const id = event.target.parentNode.parentNode.getAttribute("id");
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
     setExperience(
       experience.filter((experience) => {
         return experience.id !== id;
@@ -215,13 +215,12 @@ function App() {
 
           <br />
           {experience.map((experience, index) => (
-            <div key={experience.id} id={experience.id}>
+            <div key={experience.id} id={experience.id} onChange={handleExperienceChange}>
               <div className="editor-heading">
                 <Input
                   name="company"
                   placeholder={"Company name " + (index + 1)}
                   value={experience.company}
-                  onChange={handleExperienceChange}
                 />
                 <Button color="danger" onClick={handleExperienceDelete}>
                   <DeleteIcon />
@@ -232,14 +231,12 @@ function App() {
                 name="designation"
                 placeholder={"Designation" + (index + 1)}
                 value={experience.designation}
-                onChange={handleExperienceChange}
               />
               <br />
               <Input
                 name="duration"
                 placeholder={"Duration" + (index + 1)}
                 value={experience.duration}
-                onChange={handleExperienceChange}
               />
               <br />
             </div>
