@@ -148,7 +148,6 @@ function App() {
   const handleProjectChange=(event) => {
     const { name, value } = event.target;
     const id = event.currentTarget.getAttribute("id");
-    console.log(id)
     const newProjects = projects.map((project) => {
       if (id === project.id) {
         return {
@@ -167,6 +166,43 @@ function App() {
     setProjects(
       projects.filter((project) => {
         return project.id !== id;
+      })
+    );
+  };
+
+  const handleEducationAdd=()=>{
+    setEducation([
+      {
+        id:uuidv4(),
+        degree:"",
+        institute:"",
+        duration:""
+      },
+      ...education
+    ]);
+  };
+
+  const handleEducationChange=(event) => {
+    const { name, value } = event.target;
+    const id = event.currentTarget.getAttribute("id");
+    const newEducation = education.map((education) => {
+      if (id === education.id) {
+        return {
+          ...education,
+          [name]: value,
+        };
+      } else {
+        return education;
+      }
+    });
+    setEducation(newEducation);
+  };
+
+  const handleEducationDelete = (event) => {
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    setEducation(
+      education.filter((education) => {
+        return education.id !== id;
       })
     );
   };
@@ -267,13 +303,13 @@ function App() {
               <br />
               <Input
                 name="designation"
-                placeholder={"Designation" + (index + 1)}
+                placeholder={"Designation"}
                 value={experience.designation}
               />
               <br />
               <Input
                 name="duration"
-                placeholder={"Duration" + (index + 1)}
+                placeholder={"Duration"}
                 value={experience.duration}
               />
               <br />
@@ -301,14 +337,48 @@ function App() {
               <br />
               <Input
                 name="skills"
-                placeholder={"Skills" + (index + 1)}
+                placeholder={"Skills"}
                 value={project.skills}
               />
               <br />
               <Input
                 name="desc"
-                placeholder={"Description" + (index + 1)}
+                placeholder={"Description"}
                 value={project.desc}
+              />
+              <br />
+            </div>
+          ))}
+          <div className="editor-heading">
+            <h3 style={{ marginTop: "0px" }}>Education</h3>
+            <Button onClick={handleEducationAdd}>
+              <AddIcon />
+            </Button>
+          </div>
+          <br/>
+          {education.map((education,index)=>(
+            <div key={education.id} id={education.id} onChange={handleEducationChange}>
+            <div className="editor-heading">
+                <Input
+                  name="degree"
+                  placeholder={"Degree " + (index + 1)}
+                  value={education.degree}
+                />
+                <Button color="danger" onClick={handleEducationDelete}>
+                  <DeleteIcon />
+                </Button>
+              </div>
+              <br />
+              <Input
+                name="institute"
+                placeholder={"Institute"}
+                value={education.institute}
+              />
+              <br />
+              <Input
+                name="duration"
+                placeholder={"Duration"}
+                value={education.duration}
               />
               <br />
             </div>
