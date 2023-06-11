@@ -133,19 +133,19 @@ function App() {
     );
   };
 
-  const handleProjectAdd=()=>{
+  const handleProjectAdd = () => {
     setProjects([
       {
-        id:uuidv4(),
-        title:"",
-        skills:"",
-        desc:""
+        id: uuidv4(),
+        title: "",
+        skills: "",
+        desc: "",
       },
-      ...projects
+      ...projects,
     ]);
   };
 
-  const handleProjectChange=(event) => {
+  const handleProjectChange = (event) => {
     const { name, value } = event.target;
     const id = event.currentTarget.getAttribute("id");
     const newProjects = projects.map((project) => {
@@ -170,19 +170,19 @@ function App() {
     );
   };
 
-  const handleEducationAdd=()=>{
+  const handleEducationAdd = () => {
     setEducation([
       {
-        id:uuidv4(),
-        degree:"",
-        institute:"",
-        duration:""
+        id: uuidv4(),
+        degree: "",
+        institute: "",
+        duration: "",
       },
-      ...education
+      ...education,
     ]);
   };
 
-  const handleEducationChange=(event) => {
+  const handleEducationChange = (event) => {
     const { name, value } = event.target;
     const id = event.currentTarget.getAttribute("id");
     const newEducation = education.map((education) => {
@@ -289,12 +289,17 @@ function App() {
 
           <br />
           {experience.map((experience, index) => (
-            <div key={experience.id} id={experience.id} onChange={handleExperienceChange}>
+            <div
+              key={experience.id}
+              id={experience.id}
+              onChange={handleExperienceChange}
+            >
               <div className="editor-heading">
                 <Input
                   name="company"
                   placeholder={"Company name " + (index + 1)}
                   value={experience.company}
+                  style={{width:"100%",marginRight:"20px"}}
                 />
                 <Button color="danger" onClick={handleExperienceDelete}>
                   <DeleteIcon />
@@ -321,14 +326,19 @@ function App() {
               <AddIcon />
             </Button>
           </div>
-          <br/>
-          {projects.map((project,index)=>(
-            <div key={project.id} id={project.id} onChange={handleProjectChange}>
-            <div className="editor-heading">
+          <br />
+          {projects.map((project, index) => (
+            <div
+              key={project.id}
+              id={project.id}
+              onChange={handleProjectChange}
+            >
+              <div className="editor-heading">
                 <Input
                   name="title"
                   placeholder={"Title " + (index + 1)}
                   value={project.title}
+                  style={{width:"100%",marginRight:"20px"}}
                 />
                 <Button color="danger" onClick={handleProjectDelete}>
                   <DeleteIcon />
@@ -355,14 +365,19 @@ function App() {
               <AddIcon />
             </Button>
           </div>
-          <br/>
-          {education.map((education,index)=>(
-            <div key={education.id} id={education.id} onChange={handleEducationChange}>
-            <div className="editor-heading">
+          <br />
+          {education.map((education, index) => (
+            <div
+              key={education.id}
+              id={education.id}
+              onChange={handleEducationChange}
+            >
+              <div className="editor-heading">
                 <Input
                   name="degree"
                   placeholder={"Degree " + (index + 1)}
                   value={education.degree}
+                  style={{width:"100%",marginRight:"20px"}}
                 />
                 <Button color="danger" onClick={handleEducationDelete}>
                   <DeleteIcon />
