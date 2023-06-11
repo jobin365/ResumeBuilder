@@ -133,6 +133,44 @@ function App() {
     );
   };
 
+  const handleProjectAdd=()=>{
+    setProjects([
+      {
+        id:uuidv4(),
+        title:"",
+        skills:"",
+        desc:""
+      },
+      ...projects
+    ]);
+  };
+
+  const handleProjectChange=(event) => {
+    const { name, value } = event.target;
+    const id = event.currentTarget.getAttribute("id");
+    console.log(id)
+    const newProjects = projects.map((project) => {
+      if (id === project.id) {
+        return {
+          ...project,
+          [name]: value,
+        };
+      } else {
+        return project;
+      }
+    });
+    setProjects(newProjects);
+  };
+
+  const handleProjectDelete = (event) => {
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    setProjects(
+      projects.filter((project) => {
+        return project.id !== id;
+      })
+    );
+  };
+
   return (
     <div style={{ fontFamily: "Helvetica" }}>
       <div className="header">
@@ -237,6 +275,40 @@ function App() {
                 name="duration"
                 placeholder={"Duration" + (index + 1)}
                 value={experience.duration}
+              />
+              <br />
+            </div>
+          ))}
+          <div className="editor-heading">
+            <h3 style={{ marginTop: "0px" }}>Projects</h3>
+            <Button onClick={handleProjectAdd}>
+              <AddIcon />
+            </Button>
+          </div>
+          <br/>
+          {projects.map((project,index)=>(
+            <div key={project.id} id={project.id} onChange={handleProjectChange}>
+            <div className="editor-heading">
+                <Input
+                  name="title"
+                  placeholder={"Title " + (index + 1)}
+                  value={project.title}
+                />
+                <Button color="danger" onClick={handleProjectDelete}>
+                  <DeleteIcon />
+                </Button>
+              </div>
+              <br />
+              <Input
+                name="skills"
+                placeholder={"Skills" + (index + 1)}
+                value={project.skills}
+              />
+              <br />
+              <Input
+                name="desc"
+                placeholder={"Description" + (index + 1)}
+                value={project.desc}
               />
               <br />
             </div>
