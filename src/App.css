@@ -1,11 +1,10 @@
-.header{
+.header {
   position: sticky;
   top: 0px;
   z-index: 3;
-  
 }
 
-.header-content{
+.header-content {
   flex-direction: row;
   display: flex;
   justify-content: space-between;
@@ -15,35 +14,14 @@
 }
 
 @media only screen and (max-width: 500px) {
-  .heading{
+  .heading {
     font-size: x-large;
   }
 }
 
-.body{
+.body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.resume{
-  display: flex;
-  flex-direction: row;
-}
-
-h1,h2,h3,h4{
-  margin-bottom: 0px;
-}
-p{
-  margin-top: 5px;
-  text-align: justify;
-  text-justify: inter-word;
-}
-
-.editor-heading{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 }
