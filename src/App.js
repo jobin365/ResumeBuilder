@@ -4,9 +4,12 @@ import Divider from "@mui/joy/Divider";
 import Button from "@mui/joy/Button";
 import jsPDF from "jspdf";
 import Home from "./components/Home";
+import Login from "./components/Login";
+import GoogleIcon from '@mui/icons-material/Google';
 
 function App() {
   const resume = useRef();
+  const [isLoggedIn,setLogin]=useState(false);
 
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
@@ -32,16 +35,21 @@ function App() {
           >
             Resume Builder
           </h1>
-          <div>
-            <Button onClick={handleGeneratePdf}>Download</Button>
+          <div>{isLoggedIn?
+            <Button onClick={handleGeneratePdf}>Download</Button>:
+            <Button startDecorator={<GoogleIcon />}>Login with Google</Button>
+          }
           </div>
         </div>
         <div>
           <Divider />
         </div>
       </div>
-      <div>
-        <Home resume={resume} />
+      <div className="body">
+      {isLoggedIn?
+        <Home resume={resume} />:
+        <Login/>
+      }
       </div>
     </div>
   );

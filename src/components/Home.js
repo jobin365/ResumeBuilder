@@ -15,6 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/joy/IconButton";
 
 export default function Home(props) {
+  
   const [name, setName] = useState("Jobin John K");
   const [designation, setDesignation] = useState("Campaign Builder");
   const [skills, setSkills] = useState("SFMC,AMPScript,HTML,CSS,Python,AWS");
@@ -191,7 +192,7 @@ export default function Home(props) {
   };
 
   return (
-    <div className="body">
+    <>
       <div className="editor" style={{ width: "500px", margin: "25px" }}>
         <h3 style={{ marginTop: "0px" }}>About</h3>
         <br />
@@ -425,6 +426,6 @@ export default function Home(props) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
