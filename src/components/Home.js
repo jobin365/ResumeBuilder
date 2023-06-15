@@ -78,7 +78,7 @@ export default function Home(props) {
     },
   ]);
 
-  var w = window.innerWidth;
+  const w = window.innerWidth;
 
   const handleExperienceChange = (event) => {
     const { name, value } = event.target;

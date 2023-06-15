@@ -13,9 +13,15 @@
   align-items: center;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 675px) {
   .heading {
     font-size: x-large;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .heading {
+    font-size: large;
   }
 }
 
