@@ -363,7 +363,7 @@ export default function Home(props) {
         ))}
       </div>
       {w >= 1330 && <Divider orientation="vertical" />}
-      {w >= 1330 && (
+      {(w >= 1330 || props.visible) && (
         <div
           className="resume"
           style={{

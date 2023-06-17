@@ -12,25 +12,36 @@ import SaveIcon from "@mui/icons-material/Save";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Avatar from "@mui/joy/Avatar";
 import Tooltip from "@mui/joy/Tooltip";
-import LoadingBar from 'react-top-loading-bar'
+import LoadingBar from "react-top-loading-bar";
+import { flushSync } from 'react-dom';
 
 function App() {
   const resume = useRef();
-  const bar = useRef(null)
+  const bar = useRef(null);
   const [isLoggedIn, setLogin] = useState(true);
-
+  const [resumeVisible,setVisible]=useState(false)
   const w = window.innerWidth;
 
+  if (w>=1330)
+    setVisible(true);
+
   const handleGeneratePdf = () => {
-    bar.current.continuousStart()
+    if (w<1330)
+      flushSync(() => {
+        setVisible(true);
+      })
+    bar.current.continuousStart();
     const doc = new jsPDF({
       format: "a4",
       unit: "px",
       hotfixes: ["px_scaling"],
     });
+    console.log("checkpoint1")
     doc.html(resume.current, {
       async callback(doc) {
         await doc.save("Resume");
+        if (w<1330)
+          setVisible(false)
         bar.current.complete();
       },
       autoPaging: "text",
@@ -39,6 +50,7 @@ function App() {
 
   return (
     <div style={{ fontFamily: "Helvetica" }}>
+      <LoadingBar color='#f11946' ref={bar} />
       <div className="header">
         <div className="header-content">
           <h1
@@ -79,7 +91,7 @@ function App() {
                   <IconButton color="success" variant="solid">
                     <SaveIcon />
                   </IconButton>
-                  <IconButton style={{ marginLeft: "10px" }} variant="solid">
+                  <IconButton style={{ marginLeft: "10px" }} variant="solid" onClick={handleGeneratePdf}>
                     <DownloadIcon />
                   </IconButton>
                   <IconButton
@@ -103,13 +115,10 @@ function App() {
             )}
           </div>
         </div>
-        <div>
-          <Divider />
-          <LoadingBar color='#f11946' ref={bar} />
-        </div>
+        <Divider />
       </div>
       <div className="body">
-        {isLoggedIn ? <Home resume={resume} /> : <Login />}
+        {isLoggedIn ? <Home resume={resume} visible={resumeVisible}/> : <Login />}
       </div>
     </div>
   );
