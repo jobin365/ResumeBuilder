@@ -19,18 +19,16 @@ function App() {
   const resume = useRef();
   const bar = useRef(null);
   const [isLoggedIn, setLogin] = useState(true);
-  const [resumeVisible,setVisible]=useState(false)
   const w = window.innerWidth;
-
-  if (w>=1330)
-    setVisible(true);
+  const [resumeVisible,setVisible]=useState(w>=1330?true:false)
+  
 
   const handleGeneratePdf = () => {
+    bar.current.continuousStart();
     if (w<1330)
       flushSync(() => {
         setVisible(true);
       })
-    bar.current.continuousStart();
     const doc = new jsPDF({
       format: "a4",
       unit: "px",
