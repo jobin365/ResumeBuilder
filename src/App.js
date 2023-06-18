@@ -115,8 +115,8 @@ function App() {
         </div>
         <Divider />
       </div>
-      <div className="body">
-        {isLoggedIn ? <Home resume={resume} visible={resumeVisible}/> : <Login />}
+      <div className="body" style={{alignItems:!(isLoggedIn)&&"center"}}>
+        {isLoggedIn ? <Home resume={resume} visible={resumeVisible}/> : <Login/>}
       </div>
     </div>
   );

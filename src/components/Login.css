@@ -1,0 +1,25 @@
+.heroImg {
+  width: 640px;
+}
+
+.heroText{
+    width: 350px;
+}
+
+@media only screen and (max-width: 1040px) {
+  .heroImg {
+    width: 350px;
+  }
+}
+
+@media only screen and (min-width:1040px){
+    .heroText{
+        font-size:50px;
+    }
+}
+
+@media only screen and (max-width:750px){
+    .heroText{
+        text-align:center;
+    }
+}
