@@ -13,42 +13,215 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Avatar from "@mui/joy/Avatar";
 import Tooltip from "@mui/joy/Tooltip";
 import LoadingBar from "react-top-loading-bar";
-import { flushSync } from 'react-dom';
+import { flushSync } from "react-dom";
+import Axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
+  const [username, setUserName] = useState("");
   const resume = useRef();
   const bar = useRef(null);
-  const [isLoggedIn, setLogin] = useState(true);
+  const [isLoggedIn, setLogin] = useState(false);
   const w = window.innerWidth;
-  const [resumeVisible,setVisible]=useState(w>=1330?true:false)
-  
+  const [resumeVisible, setVisible] = useState(w >= 1330 ? true : false);
+
+  const [name, setName] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [skills, setSkills] = useState("");
+  const [email, setEmail] = useState("");
+  const [summary, setSummary] = useState("");
+  const [linkedin, setLinkedIn] = useState("");
+
+  const [github, setGitHub] = useState("");
+  const [experience, setExperience] = useState([]);
+  const [projects, setProjects] = useState([]);
+
+  const [education, setEducation] = useState([]);
+
+  Axios.defaults.baseURL = "http://localhost:3001";
+  Axios.defaults.withCredentials = true;
+
+  Axios.get("/loginStatus").then(function (response) {
+    const loginStatus = response.data.status;
+    setLogin(loginStatus);
+    if (loginStatus) {
+      setUserName(response.data.username);
+    }
+  });
+
+  useEffect(() => {
+    Axios.get("/getResume").then(function (response) {
+      const resume = response.data;
+      setName(resume.name);
+      setDesignation(resume.designation);
+      setEmail(resume.email);
+      setLinkedIn(resume.linkedin);
+      setGitHub(resume.github);
+      setSkills(resume.skills);
+      setSummary(resume.summary);
+      setExperience(resume.experience);
+      setEducation(resume.education);
+      setProjects(resume.projects);
+    });
+  }, []);
 
   const handleGeneratePdf = () => {
     bar.current.continuousStart();
-    if (w<1330)
+    if (w < 1330)
       flushSync(() => {
         setVisible(true);
-      })
+      });
     const doc = new jsPDF({
       format: "a4",
       unit: "px",
       hotfixes: ["px_scaling"],
     });
-    console.log("checkpoint1")
+    console.log("checkpoint1");
     doc.html(resume.current, {
       async callback(doc) {
         await doc.save("Resume");
-        if (w<1330)
-          setVisible(false)
+        if (w < 1330) setVisible(false);
         bar.current.complete();
       },
       autoPaging: "text",
     });
   };
 
+  const handleExperienceChange = (event) => {
+    const { name, value } = event.target;
+    const id = event.currentTarget.getAttribute("id");
+    const newExperience = experience.map((experience) => {
+      if (id === experience.id) {
+        return {
+          ...experience,
+          [name]: value,
+        };
+      } else {
+        return experience;
+      }
+    });
+    setExperience(newExperience);
+  };
+
+  const handleExperienceAdd = () => {
+    setExperience([
+      {
+        id: uuidv4(),
+        designation: "",
+        company: "",
+        duration: "",
+      },
+      ...experience,
+    ]);
+  };
+
+  const handleExperienceDelete = (event) => {
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    setExperience(
+      experience.filter((experience) => {
+        return experience.id !== id;
+      })
+    );
+  };
+
+  const handleProjectAdd = () => {
+    setProjects([
+      {
+        id: uuidv4(),
+        title: "",
+        skills: "",
+        desc: "",
+      },
+      ...projects,
+    ]);
+  };
+
+  const handleProjectChange = (event) => {
+    const { name, value } = event.target;
+    const id = event.currentTarget.getAttribute("id");
+    const newProjects = projects.map((project) => {
+      if (id === project.id) {
+        return {
+          ...project,
+          [name]: value,
+        };
+      } else {
+        return project;
+      }
+    });
+    setProjects(newProjects);
+  };
+
+  const handleProjectDelete = (event) => {
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    setProjects(
+      projects.filter((project) => {
+        return project.id !== id;
+      })
+    );
+  };
+
+  const handleEducationAdd = () => {
+    setEducation([
+      {
+        id: uuidv4(),
+        degree: "",
+        institute: "",
+        duration: "",
+      },
+      ...education,
+    ]);
+  };
+
+  const handleEducationChange = (event) => {
+    const { name, value } = event.target;
+    const id = event.currentTarget.getAttribute("id");
+    const newEducation = education.map((education) => {
+      if (id === education.id) {
+        return {
+          ...education,
+          [name]: value,
+        };
+      } else {
+        return education;
+      }
+    });
+    setEducation(newEducation);
+  };
+
+  const handleEducationDelete = (event) => {
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    setEducation(
+      education.filter((education) => {
+        return education.id !== id;
+      })
+    );
+  };
+
+  const saveResume = () => {
+    bar.current.continuousStart();
+    const newResume = {
+      name: name,
+      designation: designation,
+      email: email,
+      linkedin: linkedin,
+      github: github,
+      summary: summary,
+      skills: skills,
+      experience: experience,
+      projects: projects,
+      education: education,
+      certifications: [],
+    };
+    Axios.post("/saveResume",newResume).then(function (response) {
+      bar.current.complete();
+      console.log(response)
+    });
+  };
+
   return (
     <div style={{ fontFamily: "Helvetica" }}>
-      <LoadingBar color='#f11946' ref={bar} />
+      <LoadingBar color="#f11946" ref={bar} />
       <div className="header">
         <div className="header-content">
           <h1
@@ -61,7 +234,7 @@ function App() {
             {isLoggedIn ? (
               w >= 640 ? (
                 <>
-                  <Button color="success" startDecorator={<SaveIcon />}>
+                  <Button color="success" startDecorator={<SaveIcon />} onClick={saveResume}>
                     Save
                   </Button>
                   <Button
@@ -78,18 +251,22 @@ function App() {
                   >
                     Logout
                   </Button>
-                  <Tooltip title="Jobin John K">
+                  <Tooltip title={username}>
                     <Avatar color="primary" style={{ marginLeft: "10px" }}>
-                      J
+                      {username[0].toUpperCase()}
                     </Avatar>
                   </Tooltip>
                 </>
               ) : (
                 <>
-                  <IconButton color="success" variant="solid">
+                  <IconButton color="success" variant="solid" onClick={saveResume}>
                     <SaveIcon />
                   </IconButton>
-                  <IconButton style={{ marginLeft: "10px" }} variant="solid" onClick={handleGeneratePdf}>
+                  <IconButton
+                    style={{ marginLeft: "10px" }}
+                    variant="solid"
+                    onClick={handleGeneratePdf}
+                  >
                     <DownloadIcon />
                   </IconButton>
                   <IconButton
@@ -99,9 +276,9 @@ function App() {
                   >
                     <LogoutIcon />
                   </IconButton>
-                  <Tooltip title="Jobin John K">
+                  <Tooltip title={username}>
                     <Avatar color="primary" style={{ marginLeft: "10px" }}>
-                      J
+                      {username[0].toUpperCase()}
                     </Avatar>
                   </Tooltip>
                 </>
@@ -115,8 +292,45 @@ function App() {
         </div>
         <Divider />
       </div>
-      <div className="body" style={{alignItems:!(isLoggedIn)&&"center"}}>
-        {isLoggedIn ? <Home resume={resume} visible={resumeVisible}/> : <Login/>}
+      <div className="body" style={{ alignItems: !isLoggedIn && "center" }}>
+        {isLoggedIn ? (
+          <Home
+            w={w}
+            resume={resume}
+            visible={resumeVisible}
+            name={name}
+            designation={designation}
+            skills={skills}
+            email={email}
+            linkedin={linkedin}
+            github={github}
+            summary={summary}
+            experience={experience}
+            education={education}
+            projects={projects}
+            setName={setName}
+            setDesignation={setDesignation}
+            setSkills={setSkills}
+            setEmail={setEmail}
+            setLinkedIn={setLinkedIn}
+            setGitHub={setGitHub}
+            setSummary={setSummary}
+            setExperience={setExperience}
+            setEducation={setEducation}
+            setProjects={setProjects}
+            handleEducationAdd={handleEducationAdd}
+            handleEducationChange={handleEducationChange}
+            handleEducationDelete={handleEducationDelete}
+            handleExperienceAdd={handleExperienceAdd}
+            handleExperienceChange={handleExperienceChange}
+            handleExperienceDelete={handleExperienceDelete}
+            handleProjectAdd={handleProjectAdd}
+            handleProjectChange={handleProjectChange}
+            handleProjectDelete={handleProjectDelete}
+          />
+        ) : (
+          <Login />
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,5 @@
 import "./Home.css";
 import Input from "@mui/joy/Input";
-import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import Divider from "@mui/joy/Divider";
 import Textarea from "@mui/joy/Textarea";
 import emailIcon from "../images/email.png";
@@ -15,181 +13,6 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/joy/IconButton";
 
 export default function Home(props) {
-  
-  const [name, setName] = useState("Jobin John K");
-  const [designation, setDesignation] = useState("Campaign Builder");
-  const [skills, setSkills] = useState("SFMC,AMPScript,HTML,CSS,Python,AWS");
-  const [email, setEmail] = useState("jobinjohnk5@gmail.com");
-  const [summary, setSummary] = useState(
-    "I have 1 year of experience working as part of Email Operations team building testing and deploying email marketing campaigns using SFMC's Email Studio, Automation Studio and Journey Builder. I am also using Python to automate some of the repetitive tasks. Currently learning AWS."
-  );
-  const [linkedin, setLinkedIn] = useState(
-    "linkedin.com/in/jobin-john-k-b8141b1ba"
-  );
-
-  const [github, setGitHub] = useState("github.com/jobin365");
-  const [experience, setExperience] = useState([
-    {
-      id: uuidv4(),
-      designation: "Senior Analyst",
-      company: "eClerx",
-      duration: "June 2023 - Present",
-    },
-    {
-      id: uuidv4(),
-      designation: "Intern",
-      company: "eClerx",
-      duration: "June 2022 - June 2023",
-    },
-  ]);
-  const [projects, setProjects] = useState([
-    {
-      id: uuidv4(),
-      title: "Resume Builder",
-      skills: "React",
-      desc: "Resume Builder is a web application that allows you to create, edit and download a resume.",
-    },
-    {
-      id: uuidv4(),
-      title: "MyTasks",
-      skills: "React,Node,MongoDB",
-      desc: "MyTasks is a web application that allows you to create, edit, delete and maintain multiple lists of tasks.",
-    },
-    {
-      id: uuidv4(),
-      title: "Keeper",
-      skills: "React,Node,MongoDB",
-      desc: "Keeper is a web application that allows you to create, edit, delete and maintain notes.",
-    },
-  ]);
-
-  const [education, setEducation] = useState([
-    {
-      id: uuidv4(),
-      degree: "Master of Computer Applications",
-      institute: "Lovely Professional University",
-      duration: "June 2021 - May 2023",
-    },
-    {
-      id: uuidv4(),
-      degree: "Bachelor of Science in Computer Science",
-      institute: "University of Calicut",
-      duration: "June 2018 - May 2021",
-    },
-  ]);
-
-  const w = window.innerWidth;
-
-  const handleExperienceChange = (event) => {
-    const { name, value } = event.target;
-    const id = event.currentTarget.getAttribute("id");
-    const newExperience = experience.map((experience) => {
-      if (id === experience.id) {
-        return {
-          ...experience,
-          [name]: value,
-        };
-      } else {
-        return experience;
-      }
-    });
-    setExperience(newExperience);
-  };
-
-  const handleExperienceAdd = () => {
-    setExperience([
-      {
-        id: uuidv4(),
-        designation: "",
-        company: "",
-        duration: "",
-      },
-      ...experience,
-    ]);
-  };
-
-  const handleExperienceDelete = (event) => {
-    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
-    setExperience(
-      experience.filter((experience) => {
-        return experience.id !== id;
-      })
-    );
-  };
-
-  const handleProjectAdd = () => {
-    setProjects([
-      {
-        id: uuidv4(),
-        title: "",
-        skills: "",
-        desc: "",
-      },
-      ...projects,
-    ]);
-  };
-
-  const handleProjectChange = (event) => {
-    const { name, value } = event.target;
-    const id = event.currentTarget.getAttribute("id");
-    const newProjects = projects.map((project) => {
-      if (id === project.id) {
-        return {
-          ...project,
-          [name]: value,
-        };
-      } else {
-        return project;
-      }
-    });
-    setProjects(newProjects);
-  };
-
-  const handleProjectDelete = (event) => {
-    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
-    setProjects(
-      projects.filter((project) => {
-        return project.id !== id;
-      })
-    );
-  };
-
-  const handleEducationAdd = () => {
-    setEducation([
-      {
-        id: uuidv4(),
-        degree: "",
-        institute: "",
-        duration: "",
-      },
-      ...education,
-    ]);
-  };
-
-  const handleEducationChange = (event) => {
-    const { name, value } = event.target;
-    const id = event.currentTarget.getAttribute("id");
-    const newEducation = education.map((education) => {
-      if (id === education.id) {
-        return {
-          ...education,
-          [name]: value,
-        };
-      } else {
-        return education;
-      }
-    });
-    setEducation(newEducation);
-  };
-
-  const handleEducationDelete = (event) => {
-    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
-    setEducation(
-      education.filter((education) => {
-        return education.id !== id;
-      })
-    );
-  };
 
   return (
     <>
@@ -198,68 +21,68 @@ export default function Home(props) {
         <br />
         <Input
           placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={props.name}
+          onChange={(e) => props.setName(e.target.value)}
           name="name"
         />
         <br />
         <Input
           name="designation"
           placeholder="Designation"
-          value={designation}
-          onChange={(e) => setDesignation(e.target.value)}
+          value={props.designation}
+          onChange={(e) => props.setDesignation(e.target.value)}
         />
         <br />
         <Input
           name="email"
           placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={props.email}
+          onChange={(e) => props.setEmail(e.target.value)}
         />
         <br />
         <Input
           name="linkedin"
           placeholder="Linkedin profile URL"
-          value={linkedin}
-          onChange={(e) => setLinkedIn(e.target.value)}
+          value={props.linkedin}
+          onChange={(e) => props.setLinkedIn(e.target.value)}
         />
         <br />
         <Input
           name="github"
           placeholder="GitHub profile URL"
-          value={github}
-          onChange={(e) => setGitHub(e.target.value)}
+          value={props.github}
+          onChange={(e) => props.setGitHub(e.target.value)}
         />
         <br />
         <Textarea
           placeholder="Skill separated by comma without space"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
+          value={props.skills}
+          onChange={(e) => props.setSkills(e.target.value)}
           minRows={3}
           name="skills"
         />
         <br />
         <Textarea
           placeholder="Summary"
-          value={summary}
-          onChange={(e) => setSummary(e.target.value)}
+          value={props.summary}
+          onChange={(e) => props.setSummary(e.target.value)}
           minRows={3}
           name="summary"
         />
         <br />
         <div className="editor-heading">
           <h3 style={{ marginTop: "0px" }}>Experience</h3>
-          <IconButton variant="solid" onClick={handleExperienceAdd}>
+          <IconButton variant="solid" onClick={props.handleExperienceAdd}>
             <AddIcon />
           </IconButton>
         </div>
 
         <br />
-        {experience.map((experience, index) => (
+        {props.experience.map((experience, index) => (
           <div
             key={experience.id}
             id={experience.id}
-            onChange={handleExperienceChange}
+            onChange={props.handleExperienceChange}
           >
             <div className="editor-heading">
               <Input
@@ -268,7 +91,7 @@ export default function Home(props) {
                 value={experience.company}
                 style={{ width: "100%", marginRight: "20px" }}
               />
-              <IconButton color="danger" onClick={handleExperienceDelete}>
+              <IconButton color="danger" onClick={props.handleExperienceDelete}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -289,13 +112,13 @@ export default function Home(props) {
         ))}
         <div className="editor-heading">
           <h3 style={{ marginTop: "0px" }}>Projects</h3>
-          <IconButton variant="solid" onClick={handleProjectAdd}>
+          <IconButton variant="solid" onClick={props.handleProjectAdd}>
             <AddIcon />
           </IconButton>
         </div>
         <br />
-        {projects.map((project, index) => (
-          <div key={project.id} id={project.id} onChange={handleProjectChange}>
+        {props.projects.map((project, index) => (
+          <div key={project.id} id={project.id} onChange={props.handleProjectChange}>
             <div className="editor-heading">
               <Input
                 name="title"
@@ -303,7 +126,7 @@ export default function Home(props) {
                 value={project.title}
                 style={{ width: "100%", marginRight: "20px" }}
               />
-              <IconButton color="danger" onClick={handleProjectDelete}>
+              <IconButton color="danger" onClick={props.handleProjectDelete}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -324,16 +147,16 @@ export default function Home(props) {
         ))}
         <div className="editor-heading">
           <h3 style={{ marginTop: "0px" }}>Education</h3>
-          <IconButton variant="solid" onClick={handleEducationAdd}>
+          <IconButton variant="solid" onClick={props.handleEducationAdd}>
             <AddIcon />
           </IconButton>
         </div>
         <br />
-        {education.map((education, index) => (
+        {props.education.map((education, index) => (
           <div
             key={education.id}
             id={education.id}
-            onChange={handleEducationChange}
+            onChange={props.handleEducationChange}
           >
             <div className="editor-heading">
               <Input
@@ -342,7 +165,7 @@ export default function Home(props) {
                 value={education.degree}
                 style={{ width: "100%", marginRight: "20px" }}
               />
-              <IconButton color="danger" onClick={handleEducationDelete}>
+              <IconButton color="danger" onClick={props.handleEducationDelete}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -362,8 +185,8 @@ export default function Home(props) {
           </div>
         ))}
       </div>
-      {w >= 1330 && <Divider orientation="vertical" />}
-      {(w >= 1330 || props.visible) && (
+      {props.w >= 1330 && <Divider orientation="vertical" />}
+      {(props.w >= 1330 || props.visible) && (
         <div
           className="resume"
           style={{
@@ -378,17 +201,17 @@ export default function Home(props) {
               paddingRight: "0px",
             }}
           >
-            <h1 style={{ marginBottom: "0px", marginTop: "0px" }}>{name}</h1>
+            <h1 style={{ marginBottom: "0px", marginTop: "0px" }}>{props.name}</h1>
             <h3 style={{ marginTop: "5px", marginBottom: "15px" }}>
-              {designation}
+              {props.designation}
             </h3>
-            <Online img={emailIcon} url={email} />
-            <Online img={linkedinIcon} url={linkedin} />
-            <Online img={githubIcon} url={github} />
+            <Online img={emailIcon} url={props.email} />
+            <Online img={linkedinIcon} url={props.linkedin} />
+            <Online img={githubIcon} url={props.github} />
             <h2>Summary</h2>
-            <p>{summary}</p>
+            <p>{props.summary}</p>
             <h2>Experience</h2>
-            {experience.map((experience) => (
+            {props.experience.map((experience) => (
               <History
                 key={experience.id}
                 title={experience.designation}
@@ -397,7 +220,7 @@ export default function Home(props) {
               />
             ))}
             <h2>Education</h2>
-            {education.map((education) => (
+            {props.education.map((education) => (
               <History
                 key={education.id}
                 title={education.degree}
@@ -413,9 +236,9 @@ export default function Home(props) {
             }}
           >
             <h2 style={{ marginTop: "0px" }}>Skills</h2>
-            <p>{skills.replace(/,/g, " • ")}</p>
+            <p>{props.skills.replace(/,/g, " • ")}</p>
             <h2>Projects</h2>
-            {projects.map((project) => (
+            {props.projects.map((project) => (
               <Project
                 key={project.id}
                 title={project.title}
