@@ -41,16 +41,20 @@ function App() {
   Axios.defaults.baseURL = "http://localhost:3001";
   Axios.defaults.withCredentials = true;
 
-  Axios.get("/loginStatus").then(function (response) {
-    const loginStatus = response.data.status;
-    setLogin(loginStatus);
-    if (loginStatus) {
-      setUserName(response.data.username);
-    }
-  });
+  useEffect(() => {
+    Axios.get("/loginStatus").then(function (response) {
+      console.log("login");
+      const loginStatus = response.data.status;
+      setLogin(loginStatus);
+      if (loginStatus) {
+        setUserName(response.data.username);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     Axios.get("/getResume").then(function (response) {
+      console.log('resume')
       const resume = response.data;
       setName(resume.name);
       setDesignation(resume.designation);
@@ -213,11 +217,19 @@ function App() {
       education: education,
       certifications: [],
     };
-    Axios.post("/saveResume",newResume).then(function (response) {
+    Axios.post("/saveResume", newResume).then(function (response) {
       bar.current.complete();
-      console.log(response)
+      console.log(response);
     });
   };
+
+  const logout=()=>{
+    bar.current.continuousStart();
+    Axios.get("/logout").then((res)=>{
+      setLogin(false);
+      bar.current.complete();
+    })
+  }
 
   return (
     <div style={{ fontFamily: "Helvetica" }}>
@@ -234,7 +246,11 @@ function App() {
             {isLoggedIn ? (
               w >= 640 ? (
                 <>
-                  <Button color="success" startDecorator={<SaveIcon />} onClick={saveResume}>
+                  <Button
+                    color="success"
+                    startDecorator={<SaveIcon />}
+                    onClick={saveResume}
+                  >
                     Save
                   </Button>
                   <Button
@@ -245,6 +261,7 @@ function App() {
                     Download
                   </Button>
                   <Button
+                    onClick={logout}
                     color="danger"
                     style={{ marginLeft: "10px" }}
                     startDecorator={<LogoutIcon />}
@@ -259,7 +276,11 @@ function App() {
                 </>
               ) : (
                 <>
-                  <IconButton color="success" variant="solid" onClick={saveResume}>
+                  <IconButton
+                    color="success"
+                    variant="solid"
+                    onClick={saveResume}
+                  >
                     <SaveIcon />
                   </IconButton>
                   <IconButton
@@ -273,6 +294,7 @@ function App() {
                     style={{ marginLeft: "10px" }}
                     color="danger"
                     variant="solid"
+                    onClick={logout}
                   >
                     <LogoutIcon />
                   </IconButton>
@@ -284,9 +306,10 @@ function App() {
                 </>
               )
             ) : (
-              <Button startDecorator={<GoogleIcon />}>
+              <a href="http://localhost:3001/auth/google"><Button startDecorator={<GoogleIcon />}>
                 {w >= 640 ? "Login with Google" : "Login"}
               </Button>
+              </a>
             )}
           </div>
         </div>
