@@ -13,7 +13,6 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/joy/IconButton";
 
 export default function Home(props) {
-
   return (
     <>
       <div className="editor" style={{ width: "500px", margin: "25px" }}>
@@ -71,6 +70,29 @@ export default function Home(props) {
         />
         <br />
         <div className="editor-heading">
+          <h3 style={{ marginTop: "0px" }}>Certifications</h3>
+          <IconButton variant="solid" onClick={props.handleCertAdd}>
+            <AddIcon />
+          </IconButton>
+        </div>
+        <br />
+        {props.certifications.map((cert, index) => (
+          <div key={cert.id} id={cert.id} onChange={props.handleCertChange}>
+            <div className="editor-heading">
+              <Input
+                name="title"
+                placeholder={"Certification name"}
+                value={cert.title}
+                style={{ width: "100%", marginRight: "20px" }}
+              />
+              <IconButton color="danger" onClick={props.handleCertDelete}>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+            <br />
+          </div>
+        ))}
+        <div className="editor-heading">
           <h3 style={{ marginTop: "0px" }}>Experience</h3>
           <IconButton variant="solid" onClick={props.handleExperienceAdd}>
             <AddIcon />
@@ -118,7 +140,11 @@ export default function Home(props) {
         </div>
         <br />
         {props.projects.map((project, index) => (
-          <div key={project.id} id={project.id} onChange={props.handleProjectChange}>
+          <div
+            key={project.id}
+            id={project.id}
+            onChange={props.handleProjectChange}
+          >
             <div className="editor-heading">
               <Input
                 name="title"
@@ -201,7 +227,9 @@ export default function Home(props) {
               paddingRight: "0px",
             }}
           >
-            <h1 style={{ marginBottom: "0px", marginTop: "0px" }}>{props.name}</h1>
+            <h1 style={{ marginBottom: "0px", marginTop: "0px" }}>
+              {props.name}
+            </h1>
             <h3 style={{ marginTop: "5px", marginBottom: "15px" }}>
               {props.designation}
             </h3>
@@ -237,6 +265,12 @@ export default function Home(props) {
           >
             <h2 style={{ marginTop: "0px" }}>Skills</h2>
             <p>{props.skills.replace(/,/g, " • ")}</p>
+            <h2>Certifications</h2>
+            <ul>
+              {props.certifications.map((cert) => (
+                <li key={cert.id}>{cert.title}</li>
+              ))}
+            </ul>
             <h2>Projects</h2>
             {props.projects.map((project) => (
               <Project

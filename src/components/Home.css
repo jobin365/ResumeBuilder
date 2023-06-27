@@ -21,3 +21,7 @@ p {
   justify-content: space-between;
   align-items: center;
 }
+
+ul{
+  padding-left: 20px;
+}

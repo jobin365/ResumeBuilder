@@ -37,6 +37,7 @@ function App() {
   const [projects, setProjects] = useState([]);
 
   const [education, setEducation] = useState([]);
+  const [certifications,setCerts]=useState([]);
 
   Axios.defaults.baseURL = "http://localhost:3001";
   Axios.defaults.withCredentials = true;
@@ -66,6 +67,7 @@ function App() {
       setExperience(resume.experience);
       setEducation(resume.education);
       setProjects(resume.projects);
+      setCerts(resume.certifications)
     });
   }, []);
 
@@ -80,7 +82,6 @@ function App() {
       unit: "px",
       hotfixes: ["px_scaling"],
     });
-    console.log("checkpoint1");
     doc.html(resume.current, {
       async callback(doc) {
         await doc.save("Resume");
@@ -202,6 +203,41 @@ function App() {
     );
   };
 
+  function handleCertAdd(event){
+    setCerts([
+      ...certifications,
+      {
+        id: uuidv4(),
+        title: ""
+      },
+    ]);
+  }
+
+  function handleCertDelete(event){
+    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    setCerts(
+      certifications.filter((cert) => {
+        return cert.id !== id;
+      })
+    );
+  }
+
+  function handleCertChange(event){
+    const { name, value } = event.target;
+    const id = event.currentTarget.getAttribute("id");
+    const newCert = certifications.map((cert) => {
+      if (id === cert.id) {
+        return {
+          ...cert,
+          [name]: value,
+        };
+      } else {
+        return cert;
+      }
+    });
+    setCerts(newCert);
+  }
+
   const saveResume = () => {
     bar.current.continuousStart();
     const newResume = {
@@ -215,7 +251,7 @@ function App() {
       experience: experience,
       projects: projects,
       education: education,
-      certifications: [],
+      certifications: certifications,
     };
     Axios.post("/saveResume", newResume).then(function (response) {
       bar.current.complete();
@@ -269,9 +305,7 @@ function App() {
                     Logout
                   </Button>
                   <Tooltip title={username}>
-                    <Avatar color="primary" style={{ marginLeft: "10px" }}>
-                      {username[0].toUpperCase()}
-                    </Avatar>
+                    <Avatar color="primary" style={{ marginLeft: "10px" }}/>
                   </Tooltip>
                 </>
               ) : (
@@ -331,6 +365,7 @@ function App() {
             experience={experience}
             education={education}
             projects={projects}
+            certifications={certifications}
             setName={setName}
             setDesignation={setDesignation}
             setSkills={setSkills}
@@ -341,6 +376,7 @@ function App() {
             setExperience={setExperience}
             setEducation={setEducation}
             setProjects={setProjects}
+            setCerts={setCerts}
             handleEducationAdd={handleEducationAdd}
             handleEducationChange={handleEducationChange}
             handleEducationDelete={handleEducationDelete}
@@ -350,6 +386,9 @@ function App() {
             handleProjectAdd={handleProjectAdd}
             handleProjectChange={handleProjectChange}
             handleProjectDelete={handleProjectDelete}
+            handleCertAdd={handleCertAdd}
+            handleCertChange={handleCertChange}
+            handleCertDelete={handleCertDelete}
           />
         ) : (
           <Login />
