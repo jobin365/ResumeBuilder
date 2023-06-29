@@ -130,6 +130,7 @@ export default function Home(props) {
               value={experience.duration}
             />
             <br />
+            <br/>
           </div>
         ))}
         <div className="editor-heading">
@@ -169,6 +170,7 @@ export default function Home(props) {
               value={project.desc}
             />
             <br />
+            <br/>
           </div>
         ))}
         <div className="editor-heading">
@@ -208,6 +210,7 @@ export default function Home(props) {
               value={education.duration}
             />
             <br />
+            <br/>
           </div>
         ))}
       </div>

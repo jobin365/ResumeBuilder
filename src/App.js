@@ -276,7 +276,7 @@ function App() {
             className="heading"
             style={{ marginTop: "0px", marginBottom: "0px" }}
           >
-            Resume Builder
+            Resume {w<640&&<br/>}Builder
           </h1>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {isLoggedIn ? (
@@ -304,9 +304,6 @@ function App() {
                   >
                     Logout
                   </Button>
-                  <Tooltip title={username}>
-                    <Avatar color="primary" style={{ marginLeft: "10px" }}/>
-                  </Tooltip>
                 </>
               ) : (
                 <>
@@ -332,11 +329,6 @@ function App() {
                   >
                     <LogoutIcon />
                   </IconButton>
-                  <Tooltip title={username}>
-                    <Avatar color="primary" style={{ marginLeft: "10px" }}>
-                      {username[0].toUpperCase()}
-                    </Avatar>
-                  </Tooltip>
                 </>
               )
             ) : (
