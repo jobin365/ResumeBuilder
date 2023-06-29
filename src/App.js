@@ -10,8 +10,6 @@ import IconButton from "@mui/joy/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
 import SaveIcon from "@mui/icons-material/Save";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Avatar from "@mui/joy/Avatar";
-import Tooltip from "@mui/joy/Tooltip";
 import LoadingBar from "react-top-loading-bar";
 import { flushSync } from "react-dom";
 import Axios from "axios";
@@ -37,7 +35,7 @@ function App() {
   const [projects, setProjects] = useState([]);
 
   const [education, setEducation] = useState([]);
-  const [certifications,setCerts]=useState([]);
+  const [certifications, setCerts] = useState([]);
 
   Axios.defaults.baseURL = "http://localhost:3001";
   Axios.defaults.withCredentials = true;
@@ -55,7 +53,7 @@ function App() {
 
   useEffect(() => {
     Axios.get("/getResume").then(function (response) {
-      console.log('resume')
+      console.log("resume");
       const resume = response.data;
       setName(resume.name);
       setDesignation(resume.designation);
@@ -67,7 +65,7 @@ function App() {
       setExperience(resume.experience);
       setEducation(resume.education);
       setProjects(resume.projects);
-      setCerts(resume.certifications)
+      setCerts(resume.certifications);
     });
   }, []);
 
@@ -203,17 +201,17 @@ function App() {
     );
   };
 
-  function handleCertAdd(event){
+  function handleCertAdd(event) {
     setCerts([
       ...certifications,
       {
         id: uuidv4(),
-        title: ""
+        title: "",
       },
     ]);
   }
 
-  function handleCertDelete(event){
+  function handleCertDelete(event) {
     const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
     setCerts(
       certifications.filter((cert) => {
@@ -222,7 +220,7 @@ function App() {
     );
   }
 
-  function handleCertChange(event){
+  function handleCertChange(event) {
     const { name, value } = event.target;
     const id = event.currentTarget.getAttribute("id");
     const newCert = certifications.map((cert) => {
@@ -259,13 +257,13 @@ function App() {
     });
   };
 
-  const logout=()=>{
+  const logout = () => {
     bar.current.continuousStart();
-    Axios.get("/logout").then((res)=>{
+    Axios.get("/logout").then((res) => {
       setLogin(false);
       bar.current.complete();
-    })
-  }
+    });
+  };
 
   return (
     <div style={{ fontFamily: "Helvetica" }}>
@@ -276,7 +274,7 @@ function App() {
             className="heading"
             style={{ marginTop: "0px", marginBottom: "0px" }}
           >
-            Resume {w<640&&<br/>}Builder
+            Resume {w < 640 && <br />}Builder
           </h1>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {isLoggedIn ? (
@@ -332,9 +330,10 @@ function App() {
                 </>
               )
             ) : (
-              <a href="http://localhost:3001/auth/google"><Button startDecorator={<GoogleIcon />}>
-                {w >= 640 ? "Login with Google" : "Login"}
-              </Button>
+              <a href="http://localhost:3001/auth/google">
+                <Button startDecorator={<GoogleIcon />}>
+                  {w >= 640 ? "Login with Google" : "Login"}
+                </Button>
               </a>
             )}
           </div>
