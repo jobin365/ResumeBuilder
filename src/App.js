@@ -21,7 +21,7 @@ function App() {
   const resume = useRef();
   const bar = useRef(null);
   const [isLoggedIn, setLogin] = useState(false);
-  const w = window.innerWidth;
+  const [w,setW] = useState(window.innerWidth);
   const [resumeVisible, setVisible] = useState(w >= 1330 ? true : false);
 
   const [name, setName] = useState("");
@@ -43,7 +43,6 @@ function App() {
 
   useEffect(() => {
     Axios.get("/loginStatus").then(function (response) {
-      console.log("login");
       const loginStatus = response.data.status;
       setLogin(loginStatus);
       if (loginStatus) {
@@ -54,7 +53,6 @@ function App() {
 
   useEffect(() => {
     Axios.get("/getResume").then(function (response) {
-      console.log("resume");
       const resume = response.data;
       setName(resume.name);
       setDesignation(resume.designation);
