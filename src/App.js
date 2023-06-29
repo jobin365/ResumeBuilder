@@ -14,6 +14,7 @@ import LoadingBar from "react-top-loading-bar";
 import { flushSync } from "react-dom";
 import Axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import Chip from "@mui/joy/Chip";
 
 function App() {
   const [username, setUserName] = useState("");
@@ -274,16 +275,27 @@ function App() {
             className="heading"
             style={{ marginTop: "0px", marginBottom: "0px" }}
           >
-            Resume {w < 640 && <br />}Builder
+            Resume Builder
           </h1>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection:w<=580?"column-reverse":"row"
+            }}
+          >
             {isLoggedIn ? (
-              w >= 640 ? (
+              w >= 750 ? (
                 <>
+                  <div>
+                    <Chip color="info">{username}</Chip>
+                  </div>
                   <Button
                     color="success"
                     startDecorator={<SaveIcon />}
                     onClick={saveResume}
+                    style={{ marginLeft: "10px" }}
                   >
                     Save
                   </Button>
@@ -305,28 +317,34 @@ function App() {
                 </>
               ) : (
                 <>
-                  <IconButton
-                    color="success"
-                    variant="solid"
-                    onClick={saveResume}
-                  >
-                    <SaveIcon />
-                  </IconButton>
-                  <IconButton
-                    style={{ marginLeft: "10px" }}
-                    variant="solid"
-                    onClick={handleGeneratePdf}
-                  >
-                    <DownloadIcon />
-                  </IconButton>
-                  <IconButton
-                    style={{ marginLeft: "10px" }}
-                    color="danger"
-                    variant="solid"
-                    onClick={logout}
-                  >
-                    <LogoutIcon />
-                  </IconButton>
+                  <div style={{marginTop:w<=580?"5px":"0px"}}>
+                    <Chip color="info">{username}</Chip>
+                  </div>
+                  <div>
+                    <IconButton
+                      color="success"
+                      variant="solid"
+                      onClick={saveResume}
+                      style={{ marginLeft: "10px" }}
+                    >
+                      <SaveIcon />
+                    </IconButton>
+                    <IconButton
+                      style={{ marginLeft: "10px" }}
+                      variant="solid"
+                      onClick={handleGeneratePdf}
+                    >
+                      <DownloadIcon />
+                    </IconButton>
+                    <IconButton
+                      style={{ marginLeft: "10px" }}
+                      color="danger"
+                      variant="solid"
+                      onClick={logout}
+                    >
+                      <LogoutIcon />
+                    </IconButton>
+                  </div>
                 </>
               )
             ) : (
