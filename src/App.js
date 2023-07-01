@@ -16,7 +16,10 @@ import Chip from "@mui/joy/Chip";
 import emailIcon from "./images/email.png";
 import githubIcon from "./images/github.png";
 import linkedinIcon from "./images/linkedin.png";
-import CircularProgress from '@mui/joy/CircularProgress';
+import CircularProgress from "@mui/joy/CircularProgress";
+
+import { saveAs } from "file-saver";
+import { pdf } from "@react-pdf/renderer";
 
 import {
   Document,
@@ -311,7 +314,7 @@ function App() {
     },
   });
 
-  const MyDocument = (
+  const MyDocument = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={[styles.section, { width: "50%", paddingRight: 0 }]}>
@@ -373,7 +376,9 @@ function App() {
           <Text style={[styles.paragraph]}>{skills.replace(/,/g, " • ")}</Text>
           <Text style={[styles.subHeading]}>Certifications</Text>
           {certifications.map((cert, i) => (
-            <Text key={cert.id} style={[styles.paragraph]}>{"\u2022 " + cert.title}</Text>
+            <Text key={cert.id} style={[styles.paragraph]}>
+              {"\u2022 " + cert.title}
+            </Text>
           ))}
           <Text style={[styles.subHeading]}>Projects</Text>
           {projects.map((project, i) => (
@@ -391,6 +396,13 @@ function App() {
       </Page>
     </Document>
   );
+
+  const generatePdfDocument = async () => {
+    bar.current.continuousStart();
+    const blob = await pdf(<MyDocument />).toBlob();
+    saveAs(blob, "Resume");
+    bar.current.complete();
+  };
 
   return (
     <div style={{ fontFamily: "Helvetica" }}>
@@ -425,26 +437,13 @@ function App() {
                   >
                     Save
                   </Button>
-                  <PDFDownloadLink document={MyDocument} fileName="Resume.pdf">
-                    {({ blob, url, loading, error }) =>
-                      loading ? (
-                        <Button
-                          loading
-                          startDecorator={<DownloadIcon />}
-                          style={{ marginLeft: "10px" }}
-                        >
-                          Loading
-                        </Button>
-                      ) : (
-                        <Button
-                          startDecorator={<DownloadIcon />}
-                          style={{ marginLeft: "10px" }}
-                        >
-                          Download
-                        </Button>
-                      )
-                    }
-                  </PDFDownloadLink>
+                  <Button
+                    startDecorator={<DownloadIcon />}
+                    style={{ marginLeft: "10px" }}
+                    onClick={generatePdfDocument}
+                  >
+                    Download
+                  </Button>
 
                   <Button
                     onClick={logout}
@@ -469,29 +468,9 @@ function App() {
                     >
                       <SaveIcon />
                     </IconButton>
-                    <PDFDownloadLink
-                      document={MyDocument}
-                      fileName="Resume.pdf"
-                    >
-                      {({ blob, url, loading, error }) =>
-                        loading ? (
-                          <IconButton
-                            loading
-                            style={{ marginLeft: "10px" }}
-                            variant="solid"
-                          >
-                            <CircularProgress />
-                          </IconButton>
-                        ) : (
-                          <IconButton
-                            style={{ marginLeft: "10px" }}
-                            variant="solid"
-                          >
-                            <DownloadIcon />
-                          </IconButton>
-                        )
-                      }
-                    </PDFDownloadLink>
+                    <IconButton style={{ marginLeft: "10px" }} variant="solid" onClick={generatePdfDocument}>
+                      <DownloadIcon />
+                    </IconButton>
 
                     <IconButton
                       style={{ marginLeft: "10px" }}
