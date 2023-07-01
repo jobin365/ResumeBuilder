@@ -16,6 +16,8 @@ import Chip from "@mui/joy/Chip";
 import emailIcon from "./images/email.png";
 import githubIcon from "./images/github.png";
 import linkedinIcon from "./images/linkedin.png";
+import CircularProgress from '@mui/joy/CircularProgress';
+
 import {
   Document,
   Page,
@@ -427,6 +429,7 @@ function App() {
                     {({ blob, url, loading, error }) =>
                       loading ? (
                         <Button
+                          loading
                           startDecorator={<DownloadIcon />}
                           style={{ marginLeft: "10px" }}
                         >
@@ -473,10 +476,11 @@ function App() {
                       {({ blob, url, loading, error }) =>
                         loading ? (
                           <IconButton
+                            loading
                             style={{ marginLeft: "10px" }}
                             variant="solid"
                           >
-                            <DownloadIcon />
+                            <CircularProgress />
                           </IconButton>
                         ) : (
                           <IconButton
