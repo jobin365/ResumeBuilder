@@ -21,7 +21,7 @@ function App() {
   const resume = useRef();
   const bar = useRef(null);
   const [isLoggedIn, setLogin] = useState(false);
-  const [w,setW] = useState(window.innerWidth);
+  const [w, setW] = useState(window.innerWidth);
   const [resumeVisible, setVisible] = useState(w >= 1330 ? true : false);
 
   const [name, setName] = useState("");
@@ -38,7 +38,9 @@ function App() {
   const [education, setEducation] = useState([]);
   const [certifications, setCerts] = useState([]);
 
-  Axios.defaults.baseURL = "http://localhost:3001";
+  const prod=false;
+
+  Axios.defaults.baseURL = prod?"https://resume-builder-sl0y.onrender.com":"http://localhost:3001";
   Axios.defaults.withCredentials = true;
 
   useEffect(() => {
@@ -280,7 +282,7 @@ function App() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexDirection:w<=580?"column-reverse":"row"
+              flexDirection: w <= 580 ? "column-reverse" : "row",
             }}
           >
             {isLoggedIn ? (
@@ -315,7 +317,7 @@ function App() {
                 </>
               ) : (
                 <>
-                  <div style={{marginTop:w<=580?"5px":"0px"}}>
+                  <div style={{ marginTop: w <= 580 ? "5px" : "0px" }}>
                     <Chip color="info">{username}</Chip>
                   </div>
                   <div>
@@ -323,7 +325,7 @@ function App() {
                       color="success"
                       variant="solid"
                       onClick={saveResume}
-                      style={{ marginLeft: "10px" }}
+                      style={{ marginLeft:w<=580? "0px":"10px" }}
                     >
                       <SaveIcon />
                     </IconButton>
@@ -346,7 +348,7 @@ function App() {
                 </>
               )
             ) : (
-              <a href="http://localhost:3001/auth/google">
+              <a href={prod?"https://resume-builder-sl0y.onrender.com/auth/google":"http://localhost:3001/auth/google"}>
                 <Button startDecorator={<GoogleIcon />}>
                   {w >= 640 ? "Login with Google" : "Login"}
                 </Button>

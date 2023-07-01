@@ -219,7 +219,7 @@ export default function Home(props) {
         <div
           className="resume"
           style={{
-            fontFamily: "Helvetica",
+            fontFamily: "Helvetica,Times-Roman,Courier",
           }}
           ref={props.resume}
         >
