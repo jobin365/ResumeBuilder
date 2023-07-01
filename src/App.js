@@ -347,24 +347,24 @@ function App() {
 
           <Text style={[styles.subHeading]}>Experience</Text>
           {experience.map((experience, i) => (
-            <>
+            <View key={experience.id}>
               <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
                 {experience.designation}
               </Text>
               <Text style={[styles.paragraph]}>{experience.company}</Text>
               <Text style={[styles.paragraph]}>{experience.duration}</Text>
-            </>
+            </View>
           ))}
 
           <Text style={[styles.subHeading]}>Education</Text>
           {education.map((education, i) => (
-            <>
+            <View key={education.id}>
               <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
                 {education.degree}
               </Text>
               <Text style={[styles.paragraph]}>{education.institute}</Text>
               <Text style={[styles.paragraph]}>{education.duration}</Text>
-            </>
+            </View>
           ))}
         </View>
 
@@ -373,11 +373,11 @@ function App() {
           <Text style={[styles.paragraph]}>{skills.replace(/,/g, " • ")}</Text>
           <Text style={[styles.subHeading]}>Certifications</Text>
           {certifications.map((cert, i) => (
-            <Text style={[styles.paragraph]}>{"\u2022 " + cert.title}</Text>
+            <Text key={cert.id} style={[styles.paragraph]}>{"\u2022 " + cert.title}</Text>
           ))}
           <Text style={[styles.subHeading]}>Projects</Text>
           {projects.map((project, i) => (
-            <>
+            <View key={project.id}>
               <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
                 {project.title}
               </Text>
@@ -385,7 +385,7 @@ function App() {
                 {project.skills.replace(/,/g, " • ")}
               </Text>
               <Text style={[styles.paragraph]}>{project.desc}</Text>
-            </>
+            </View>
           ))}
         </View>
       </Page>
