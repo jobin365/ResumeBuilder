@@ -2,7 +2,6 @@ import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Divider from "@mui/joy/Divider";
 import Button from "@mui/joy/Button";
-import jsPDF from "jspdf";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -11,10 +10,22 @@ import DownloadIcon from "@mui/icons-material/Download";
 import SaveIcon from "@mui/icons-material/Save";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoadingBar from "react-top-loading-bar";
-import { flushSync } from "react-dom";
 import Axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Chip from "@mui/joy/Chip";
+import emailIcon from "./images/email.png";
+import githubIcon from "./images/github.png";
+import linkedinIcon from "./images/linkedin.png";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+  Image,
+  Font,
+} from "@react-pdf/renderer";
 
 function App() {
   const [username, setUserName] = useState("");
@@ -38,9 +49,11 @@ function App() {
   const [education, setEducation] = useState([]);
   const [certifications, setCerts] = useState([]);
 
-  const prod=false;
+  const prod = false;
 
-  Axios.defaults.baseURL = prod?"https://resume-builder-sl0y.onrender.com":"http://localhost:3001";
+  Axios.defaults.baseURL = prod
+    ? "https://resume-builder-sl0y.onrender.com"
+    : "http://localhost:3001";
   Axios.defaults.withCredentials = true;
 
   useEffect(() => {
@@ -69,27 +82,6 @@ function App() {
       setCerts(resume.certifications);
     });
   }, []);
-
-  const handleGeneratePdf = () => {
-    bar.current.continuousStart();
-    if (w < 1330)
-      flushSync(() => {
-        setVisible(true);
-      });
-    const doc = new jsPDF({
-      format: "a4",
-      unit: "px",
-      hotfixes: ["px_scaling"],
-    });
-    doc.html(resume.current, {
-      async callback(doc) {
-        await doc.save("Resume");
-        if (w < 1330) setVisible(false);
-        bar.current.complete();
-      },
-      autoPaging: "text",
-    });
-  };
 
   const handleExperienceChange = (event) => {
     const { name, value } = event.target;
@@ -266,6 +258,138 @@ function App() {
     });
   };
 
+  Font.register({
+    family: "Open Sans",
+    fonts: [
+      {
+        src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf",
+      },
+      {
+        src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf",
+        fontWeight: 600,
+      },
+    ],
+  });
+
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: "row",
+      fontFamily: "Open Sans",
+    },
+    section: {
+      flexGrow: 1,
+      margin: 10,
+      padding: 10,
+    },
+    bigHeading: {
+      fontSize: 25,
+      fontWeight: 600,
+    },
+    belowHeading: {
+      fontSize: 13,
+    },
+    subHeading: {
+      fontSize: 18,
+      marginTop: 10,
+      fontWeight: 600,
+    },
+    paragraph: {
+      fontSize: 11,
+      marginTop: 2,
+      textAlign: "justify",
+    },
+    textwithicon: {
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "row",
+    },
+    title: {
+      fontSize: 13,
+      fontWeight: 600,
+    },
+  });
+
+  const MyDocument = (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={[styles.section, { width: "50%", paddingRight: 0 }]}>
+          <Text style={styles.bigHeading}>{name}</Text>
+          <Text style={styles.belowHeading}>{designation}</Text>
+
+          <View style={[styles.textwithicon, { marginTop: 10 }]}>
+            <Image
+              src={emailIcon}
+              style={{ width: 15, marginRight: 5 }}
+            ></Image>
+            <Text style={[styles.paragraph]}>{email}</Text>
+          </View>
+
+          <View style={[styles.textwithicon, { marginTop: 2 }]}>
+            <Image
+              src={linkedinIcon}
+              style={{ width: 15, marginRight: 5 }}
+            ></Image>
+            <Text style={[styles.paragraph]}>{linkedin}</Text>
+          </View>
+
+          <View style={[styles.textwithicon, { marginTop: 2 }]}>
+            <Image
+              src={githubIcon}
+              style={{ width: 15, marginRight: 5 }}
+            ></Image>
+            <Text style={[styles.paragraph]}>{github}</Text>
+          </View>
+
+          <Text style={[styles.subHeading]}>Summary</Text>
+          <Text style={[styles.paragraph, {}]}>{summary}</Text>
+
+          <Text style={[styles.subHeading]}>Experience</Text>
+          {experience.map((experience, i) => (
+            <>
+              <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
+                {experience.designation}
+              </Text>
+              <Text style={[styles.paragraph]}>{experience.company}</Text>
+              <Text style={[styles.paragraph]}>{experience.duration}</Text>
+            </>
+          ))}
+
+          <Text style={[styles.subHeading]}>Education</Text>
+          {education.map((education, i) => (
+            <>
+              <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
+                {education.degree}
+              </Text>
+              <Text style={[styles.paragraph]}>{education.institute}</Text>
+              <Text style={[styles.paragraph]}>{education.duration}</Text>
+            </>
+          ))}
+        </View>
+
+        <View style={[styles.section, { width: "50%", paddingLeft: 0 }]}>
+          <Text style={[styles.subHeading, { marginTop: 0 }]}>Skills</Text>
+          <Text style={[styles.paragraph]}>{skills.replace(/,/g, " • ")}</Text>
+          <Text style={[styles.subHeading]}>Certifications</Text>
+          {certifications.map((cert, i) => (
+            <Text style={[styles.paragraph]}>{"\u2022 " + cert.title}</Text>
+          ))}
+          <Text style={[styles.subHeading]}>Projects</Text>
+          {projects.map((project, i) => (
+            <>
+              <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
+                {project.title}
+              </Text>
+              <Text style={[styles.paragraph]}>
+                {project.skills.replace(/,/g, " • ")}
+              </Text>
+              <Text style={[styles.paragraph]}>{project.desc}</Text>
+            </>
+          ))}
+        </View>
+      </Page>
+    </Document>
+  );
+
   return (
     <div style={{ fontFamily: "Helvetica" }}>
       <LoadingBar color="#f11946" ref={bar} />
@@ -299,13 +423,26 @@ function App() {
                   >
                     Save
                   </Button>
-                  <Button
-                    startDecorator={<DownloadIcon />}
-                    style={{ marginLeft: "10px" }}
-                    onClick={handleGeneratePdf}
-                  >
-                    Download
-                  </Button>
+                  <PDFDownloadLink document={MyDocument} fileName="Resume.pdf">
+                    {({ blob, url, loading, error }) =>
+                      loading ? (
+                        <Button
+                          startDecorator={<DownloadIcon />}
+                          style={{ marginLeft: "10px" }}
+                        >
+                          Loading
+                        </Button>
+                      ) : (
+                        <Button
+                          startDecorator={<DownloadIcon />}
+                          style={{ marginLeft: "10px" }}
+                        >
+                          Download
+                        </Button>
+                      )
+                    }
+                  </PDFDownloadLink>
+
                   <Button
                     onClick={logout}
                     color="danger"
@@ -325,17 +462,33 @@ function App() {
                       color="success"
                       variant="solid"
                       onClick={saveResume}
-                      style={{ marginLeft:w<=580? "0px":"10px" }}
+                      style={{ marginLeft: w <= 580 ? "0px" : "10px" }}
                     >
                       <SaveIcon />
                     </IconButton>
-                    <IconButton
-                      style={{ marginLeft: "10px" }}
-                      variant="solid"
-                      onClick={handleGeneratePdf}
+                    <PDFDownloadLink
+                      document={MyDocument}
+                      fileName="Resume.pdf"
                     >
-                      <DownloadIcon />
-                    </IconButton>
+                      {({ blob, url, loading, error }) =>
+                        loading ? (
+                          <IconButton
+                            style={{ marginLeft: "10px" }}
+                            variant="solid"
+                          >
+                            <DownloadIcon />
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            style={{ marginLeft: "10px" }}
+                            variant="solid"
+                          >
+                            <DownloadIcon />
+                          </IconButton>
+                        )
+                      }
+                    </PDFDownloadLink>
+
                     <IconButton
                       style={{ marginLeft: "10px" }}
                       color="danger"
@@ -348,7 +501,13 @@ function App() {
                 </>
               )
             ) : (
-              <a href={prod?"https://resume-builder-sl0y.onrender.com/auth/google":"http://localhost:3001/auth/google"}>
+              <a
+                href={
+                  prod
+                    ? "https://resume-builder-sl0y.onrender.com/auth/google"
+                    : "http://localhost:3001/auth/google"
+                }
+              >
                 <Button startDecorator={<GoogleIcon />}>
                   {w >= 640 ? "Login with Google" : "Login"}
                 </Button>
