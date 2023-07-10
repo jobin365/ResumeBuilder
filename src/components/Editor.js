@@ -4,9 +4,13 @@ import Textarea from "@mui/joy/Textarea";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/joy/IconButton";
+import ButtonGroup from "@mui/joy/ButtonGroup";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 export default function Editor(props) {
   return (
-    <div className="editor" style={{ width: "500px", margin: "25px" }}>
+    <div className="editor" style={{ width: "640px", margin: "25px" }}>
       <h3 style={{ marginTop: "0px" }}>About</h3>
       <br />
       <Input
@@ -76,9 +80,17 @@ export default function Editor(props) {
               value={cert.title}
               style={{ width: "100%", marginRight: "20px" }}
             />
-            <IconButton color="danger" onClick={props.handleCertDelete}>
+            <ButtonGroup aria-label="outlined primary button group">
+            <IconButton color="primary">
+              <KeyboardArrowUpIcon/>
+            </IconButton>
+            <IconButton color="primary">
+              <KeyboardArrowDownIcon/>
+            </IconButton>
+            <IconButton variant="soft" color="danger" onClick={props.handleCertDelete}>
               <DeleteIcon />
             </IconButton>
+            </ButtonGroup>
           </div>
           <br />
         </div>
