@@ -417,7 +417,7 @@ function App() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexDirection: w <= 580 ? "column-reverse" : "row",
+              flexDirection: w <= 580 ? "column" : "row",
             }}
           >
             {isLoggedIn ? (
@@ -453,7 +453,7 @@ function App() {
                 </>
               ) : (
                 <>
-                  <div style={{ marginTop: w <= 580 ? "5px" : "0px" }}>
+                  <div style={{ marginBottom: w <= 580 ? "5px" : "0px" }}>
                     <Chip color="info">{username.current}</Chip>
                   </div>
                   <div>
