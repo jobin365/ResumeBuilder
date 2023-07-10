@@ -27,18 +27,14 @@ import {
   Text,
   View,
   StyleSheet,
-  PDFDownloadLink,
   Image,
   Font,
 } from "@react-pdf/renderer";
 
 function App() {
-  const [username, setUserName] = useState("");
   const resume = useRef();
   const bar = useRef(null);
   const [isLoggedIn, setLogin] = useState(false);
-  const [w, setW] = useState(window.innerWidth);
-  const [resumeVisible, setVisible] = useState(w >= 1330 ? true : false);
 
   const [name, setName] = useState("");
   const [designation, setDesignation] = useState("");
@@ -55,6 +51,8 @@ function App() {
   const [certifications, setCerts] = useState([]);
 
   const prod = false;
+  const w=window.innerWidth;
+  const username=useRef("");
 
   Axios.defaults.baseURL = prod
     ? "https://resume-builder-sl0y.onrender.com"
@@ -66,7 +64,7 @@ function App() {
       const loginStatus = response.data.status;
       setLogin(loginStatus);
       if (loginStatus) {
-        setUserName(response.data.username);
+        username.current=response.data.username;
       }
     });
   }, []);
@@ -426,7 +424,7 @@ function App() {
               w >= 750 ? (
                 <>
                   <div>
-                    <Chip color="info">{username}</Chip>
+                    <Chip color="info">{username.current}</Chip>
                   </div>
                   <Button
                     color="success"
@@ -456,7 +454,7 @@ function App() {
               ) : (
                 <>
                   <div style={{ marginTop: w <= 580 ? "5px" : "0px" }}>
-                    <Chip color="info">{username}</Chip>
+                    <Chip color="info">{username.current}</Chip>
                   </div>
                   <div>
                     <IconButton
@@ -502,9 +500,7 @@ function App() {
       <div className="body" style={{ alignItems: !isLoggedIn && "center" }}>
         {isLoggedIn ? (
           <Editor
-            w={w}
             resume={resume}
-            visible={resumeVisible}
             name={name}
             designation={designation}
             skills={skills}
