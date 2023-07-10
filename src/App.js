@@ -2,8 +2,8 @@ import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import Divider from "@mui/joy/Divider";
 import Button from "@mui/joy/Button";
-import Home from "./components/Home";
-import Login from "./components/Login";
+import Editor from "./components/Editor";
+import HomePage from "./components/HomePage";
 import GoogleIcon from "@mui/icons-material/Google";
 import IconButton from "@mui/joy/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -251,7 +251,6 @@ function App() {
     };
     Axios.post("/saveResume", newResume).then(function (response) {
       bar.current.complete();
-      console.log(response);
     });
   };
 
@@ -400,8 +399,8 @@ function App() {
   const generatePdfDocument = async () => {
     bar.current.continuousStart();
     const blob = await pdf(<MyDocument />).toBlob();
-    saveAs(blob, "Resume");
     bar.current.complete();
+    saveAs(blob, "Resume");
   };
 
   return (
@@ -502,7 +501,7 @@ function App() {
       </div>
       <div className="body" style={{ alignItems: !isLoggedIn && "center" }}>
         {isLoggedIn ? (
-          <Home
+          <Editor
             w={w}
             resume={resume}
             visible={resumeVisible}
@@ -542,7 +541,7 @@ function App() {
             handleCertDelete={handleCertDelete}
           />
         ) : (
-          <Login />
+          <HomePage />
         )}
       </div>
     </div>

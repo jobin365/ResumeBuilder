@@ -1,10 +1,10 @@
-import "./Home.css";
+import "./Editor.css";
 import Input from "@mui/joy/Input";
 import Textarea from "@mui/joy/Textarea";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/joy/IconButton";
-export default function Home(props) {
+export default function Editor(props) {
   return (
     <div className="editor" style={{ width: "500px", margin: "25px" }}>
       <h3 style={{ marginTop: "0px" }}>About</h3>
