@@ -81,13 +81,13 @@ export default function Editor(props) {
               style={{ width: "100%", marginRight: "20px" }}
             />
             <ButtonGroup aria-label="outlined primary button group">
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={props.handleMoveCertUp}>
               <KeyboardArrowUpIcon/>
             </IconButton>
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={props.handleMoveCertDown}>
               <KeyboardArrowDownIcon/>
             </IconButton>
-            <IconButton variant="soft" color="danger" onClick={props.handleCertDelete}>
+            <IconButton color="danger" onClick={props.handleCertDelete}>
               <DeleteIcon />
             </IconButton>
             </ButtonGroup>
@@ -116,7 +116,7 @@ export default function Editor(props) {
               value={experience.company}
               style={{ width: "100%", marginRight: "20px" }}
             />
-            <IconButton color="danger" onClick={props.handleExperienceDelete}>
+            <IconButton color="danger" variant="outlined" onClick={props.handleExperienceDelete}>
               <DeleteIcon />
             </IconButton>
           </div>
@@ -156,7 +156,7 @@ export default function Editor(props) {
               value={project.title}
               style={{ width: "100%", marginRight: "20px" }}
             />
-            <IconButton color="danger" onClick={props.handleProjectDelete}>
+            <IconButton color="danger" variant="outlined" onClick={props.handleProjectDelete}>
               <DeleteIcon />
             </IconButton>
           </div>
@@ -188,7 +188,7 @@ export default function Editor(props) {
               value={education.degree}
               style={{ width: "100%", marginRight: "20px" }}
             />
-            <IconButton color="danger" onClick={props.handleEducationDelete}>
+            <IconButton color="danger" variant="outlined" onClick={props.handleEducationDelete}>
               <DeleteIcon />
             </IconButton>
           </div>

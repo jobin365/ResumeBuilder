@@ -16,7 +16,7 @@ import Chip from "@mui/joy/Chip";
 import emailIcon from "./images/email.png";
 import githubIcon from "./images/github.png";
 import linkedinIcon from "./images/linkedin.png";
-import CircularProgress from "@mui/joy/CircularProgress";
+import {arrayMoveImmutable} from 'array-move';
 
 import { saveAs } from "file-saver";
 import { pdf } from "@react-pdf/renderer";
@@ -208,7 +208,7 @@ function App() {
   }
 
   function handleCertDelete(event) {
-    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
     setCerts(
       certifications.filter((cert) => {
         return cert.id !== id;
@@ -230,6 +230,32 @@ function App() {
       }
     });
     setCerts(newCert);
+  }
+
+  function handleMoveCertUp(event){
+    var i,itemIndex;
+    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+    for (i in certifications) {
+      if (certifications[i].id === id){
+        itemIndex=i;
+      }
+    }
+    if (Number(itemIndex)!==0){
+      setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex-1));
+    }
+  }
+
+  function handleMoveCertDown(event){
+    var i,itemIndex;
+    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+    for (i in certifications) {
+      if (certifications[i].id === id){
+        itemIndex=i;
+      }
+    }
+    if (Number(itemIndex)!==certifications.length-1){
+      setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex+1));
+    }
   }
 
   const saveResume = () => {
@@ -401,6 +427,8 @@ function App() {
     saveAs(blob, "Resume");
   };
 
+  
+
   return (
     <div style={{ fontFamily: "Helvetica" }}>
       <LoadingBar color="#f11946" ref={bar} />
@@ -535,6 +563,8 @@ function App() {
             handleCertAdd={handleCertAdd}
             handleCertChange={handleCertChange}
             handleCertDelete={handleCertDelete}
+            handleMoveCertUp={handleMoveCertUp}
+            handleMoveCertDown={handleMoveCertDown}
           />
         ) : (
           <HomePage />
