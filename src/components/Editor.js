@@ -7,6 +7,7 @@ import IconButton from "@mui/joy/IconButton";
 import ButtonGroup from "@mui/joy/ButtonGroup";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Switch from '@mui/joy/Switch';
 
 export default function Editor(props) {
   return (
@@ -66,9 +67,16 @@ export default function Editor(props) {
       <br />
       <div className="editor-heading">
         <h3 style={{ marginTop: "0px" }}>Certifications</h3>
+        <div>
+        <Switch
+          checked={props.showCert}
+          onChange={(event) => props.setShowCert(event.target.checked)}
+          style={{marginRight:"20px"}}
+        />
         <IconButton variant="solid" onClick={props.handleCertAdd}>
           <AddIcon />
         </IconButton>
+        </div>
       </div>
       <br />
       {props.certifications.map((cert, index) => (

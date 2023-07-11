@@ -16,7 +16,7 @@ import Chip from "@mui/joy/Chip";
 import emailIcon from "./images/email.png";
 import githubIcon from "./images/github.png";
 import linkedinIcon from "./images/linkedin.png";
-import {arrayMoveImmutable} from 'array-move';
+import { arrayMoveImmutable } from "array-move";
 
 import { saveAs } from "file-saver";
 import { pdf } from "@react-pdf/renderer";
@@ -50,9 +50,11 @@ function App() {
   const [education, setEducation] = useState([]);
   const [certifications, setCerts] = useState([]);
 
+  const [showCert, setShowCert] = useState(true);
+
   const prod = false;
-  const w=window.innerWidth;
-  const username=useRef("");
+  const w = window.innerWidth;
+  const username = useRef("");
 
   Axios.defaults.baseURL = prod
     ? "https://resume-builder-sl0y.onrender.com"
@@ -64,7 +66,7 @@ function App() {
       const loginStatus = response.data.status;
       setLogin(loginStatus);
       if (loginStatus) {
-        username.current=response.data.username;
+        username.current = response.data.username;
       }
     });
   }, []);
@@ -208,7 +210,8 @@ function App() {
   }
 
   function handleCertDelete(event) {
-    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+    const id =
+      event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
     setCerts(
       certifications.filter((cert) => {
         return cert.id !== id;
@@ -232,29 +235,31 @@ function App() {
     setCerts(newCert);
   }
 
-  function handleMoveCertUp(event){
-    var i,itemIndex;
-    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+  function handleMoveCertUp(event) {
+    var i, itemIndex;
+    const id =
+      event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
     for (i in certifications) {
-      if (certifications[i].id === id){
-        itemIndex=i;
+      if (certifications[i].id === id) {
+        itemIndex = i;
       }
     }
-    if (Number(itemIndex)!==0){
-      setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex-1));
+    if (Number(itemIndex) !== 0) {
+      setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex - 1));
     }
   }
 
-  function handleMoveCertDown(event){
-    var i,itemIndex;
-    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+  function handleMoveCertDown(event) {
+    var i, itemIndex;
+    const id =
+      event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
     for (i in certifications) {
-      if (certifications[i].id === id){
-        itemIndex=i;
+      if (certifications[i].id === id) {
+        itemIndex = i;
       }
     }
-    if (Number(itemIndex)!==certifications.length-1){
-      setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex+1));
+    if (Number(itemIndex) !== certifications.length - 1) {
+      setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex + 1));
     }
   }
 
@@ -397,12 +402,18 @@ function App() {
         <View style={[styles.section, { width: "50%", paddingLeft: 0 }]}>
           <Text style={[styles.subHeading, { marginTop: 0 }]}>Skills</Text>
           <Text style={[styles.paragraph]}>{skills.replace(/,/g, " • ")}</Text>
-          <Text style={[styles.subHeading]}>Certifications</Text>
-          {certifications.map((cert, i) => (
-            <Text key={cert.id} style={[styles.paragraph]}>
-              {"\u2022 " + cert.title}
-            </Text>
-          ))}
+
+          {showCert && (
+            <>
+              <Text style={[styles.subHeading]}>Certifications</Text>
+              {certifications.map((cert, i) => (
+                <Text key={cert.id} style={[styles.paragraph]}>
+                  {"\u2022 " + cert.title}
+                </Text>
+              ))}
+            </>
+          )}
+
           <Text style={[styles.subHeading]}>Projects</Text>
           {projects.map((project, i) => (
             <View key={project.id}>
@@ -426,8 +437,6 @@ function App() {
     bar.current.complete();
     saveAs(blob, "Resume");
   };
-
-  
 
   return (
     <div style={{ fontFamily: "Helvetica" }}>
@@ -493,7 +502,11 @@ function App() {
                     >
                       <SaveIcon />
                     </IconButton>
-                    <IconButton style={{ marginLeft: "10px" }} variant="solid" onClick={generatePdfDocument}>
+                    <IconButton
+                      style={{ marginLeft: "10px" }}
+                      variant="solid"
+                      onClick={generatePdfDocument}
+                    >
                       <DownloadIcon />
                     </IconButton>
 
@@ -551,6 +564,7 @@ function App() {
             setEducation={setEducation}
             setProjects={setProjects}
             setCerts={setCerts}
+            showCert={showCert}
             handleEducationAdd={handleEducationAdd}
             handleEducationChange={handleEducationChange}
             handleEducationDelete={handleEducationDelete}
@@ -565,6 +579,7 @@ function App() {
             handleCertDelete={handleCertDelete}
             handleMoveCertUp={handleMoveCertUp}
             handleMoveCertDown={handleMoveCertDown}
+            setShowCert={setShowCert}
           />
         ) : (
           <HomePage />
