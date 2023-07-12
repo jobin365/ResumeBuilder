@@ -51,6 +51,7 @@ function App() {
   const [certifications, setCerts] = useState([]);
 
   const [showCert, setShowCert] = useState(true);
+  const [showProjects, setShowProjects] = useState(true);
 
   const prod = false;
   const w = window.innerWidth;
@@ -154,7 +155,8 @@ function App() {
   };
 
   const handleProjectDelete = (event) => {
-    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+    const id =
+      event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
     setProjects(
       projects.filter((project) => {
         return project.id !== id;
@@ -442,18 +444,22 @@ function App() {
             </>
           )}
 
-          <Text style={[styles.subHeading]}>Projects</Text>
-          {projects.map((project, i) => (
-            <View key={project.id}>
-              <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
-                {project.title}
-              </Text>
-              <Text style={[styles.paragraph]}>
-                {project.skills.replace(/,/g, " • ")}
-              </Text>
-              <Text style={[styles.paragraph]}>{project.desc}</Text>
-            </View>
-          ))}
+          {showProjects && (
+            <>
+              <Text style={[styles.subHeading]}>Projects</Text>
+              {projects.map((project, i) => (
+                <View key={project.id}>
+                  <Text style={[styles.title, { marginTop: i === 0 ? 0 : 7 }]}>
+                    {project.title}
+                  </Text>
+                  <Text style={[styles.paragraph]}>
+                    {project.skills.replace(/,/g, " • ")}
+                  </Text>
+                  <Text style={[styles.paragraph]}>{project.desc}</Text>
+                </View>
+              ))}
+            </>
+          )}
         </View>
       </Page>
     </Document>
@@ -593,6 +599,7 @@ function App() {
             setProjects={setProjects}
             setCerts={setCerts}
             showCert={showCert}
+            showProjects={showProjects}
             handleEducationAdd={handleEducationAdd}
             handleEducationChange={handleEducationChange}
             handleEducationDelete={handleEducationDelete}
@@ -610,6 +617,7 @@ function App() {
             handleMoveProjectUp={handleMoveProjectUp}
             handleMoveProjectDown={handleMoveProjectDown}
             setShowCert={setShowCert}
+            setShowProjects={setShowProjects}
           />
         ) : (
           <HomePage />

@@ -5,9 +5,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/joy/IconButton";
 import ButtonGroup from "@mui/joy/ButtonGroup";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Switch from '@mui/joy/Switch';
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Switch from "@mui/joy/Switch";
 
 export default function Editor(props) {
   return (
@@ -68,14 +68,14 @@ export default function Editor(props) {
       <div className="editor-heading">
         <h3 style={{ marginTop: "0px" }}>Certifications</h3>
         <div>
-        <Switch
-          checked={props.showCert}
-          onChange={(event) => props.setShowCert(event.target.checked)}
-          style={{marginRight:"20px"}}
-        />
-        <IconButton variant="solid" onClick={props.handleCertAdd}>
-          <AddIcon />
-        </IconButton>
+          <Switch
+            checked={props.showCert}
+            onChange={(event) => props.setShowCert(event.target.checked)}
+            style={{ marginRight: "20px" }}
+          />
+          <IconButton variant="solid" onClick={props.handleCertAdd}>
+            <AddIcon />
+          </IconButton>
         </div>
       </div>
       <br />
@@ -87,18 +87,18 @@ export default function Editor(props) {
               name="title"
               placeholder={"Certification name"}
               value={cert.title}
-              style={{ width: "100%"}}
+              style={{ width: "100%" }}
             />
             <ButtonGroup aria-label="outlined primary button group">
-            <IconButton color="primary" onClick={props.handleMoveCertUp}>
-              <KeyboardArrowUpIcon/>
-            </IconButton>
-            <IconButton color="primary" onClick={props.handleMoveCertDown}>
-              <KeyboardArrowDownIcon/>
-            </IconButton>
-            <IconButton color="danger" onClick={props.handleCertDelete}>
-              <DeleteIcon />
-            </IconButton>
+              <IconButton color="primary" onClick={props.handleMoveCertUp}>
+                <KeyboardArrowUpIcon />
+              </IconButton>
+              <IconButton color="primary" onClick={props.handleMoveCertDown}>
+                <KeyboardArrowDownIcon />
+              </IconButton>
+              <IconButton color="danger" onClick={props.handleCertDelete}>
+                <DeleteIcon />
+              </IconButton>
             </ButtonGroup>
           </div>
           <br />
@@ -125,7 +125,11 @@ export default function Editor(props) {
               value={experience.company}
               style={{ width: "100%", marginRight: "20px" }}
             />
-            <IconButton color="danger" variant="outlined" onClick={props.handleExperienceDelete}>
+            <IconButton
+              color="danger"
+              variant="outlined"
+              onClick={props.handleExperienceDelete}
+            >
               <DeleteIcon />
             </IconButton>
           </div>
@@ -147,9 +151,16 @@ export default function Editor(props) {
       ))}
       <div className="editor-heading">
         <h3 style={{ marginTop: "0px" }}>Projects</h3>
-        <IconButton variant="solid" onClick={props.handleProjectAdd}>
-          <AddIcon />
-        </IconButton>
+        <div>
+          <Switch
+            checked={props.showProjects}
+            onChange={(event) => props.setShowProjects(event.target.checked)}
+            style={{ marginRight: "20px" }}
+          />
+          <IconButton variant="solid" onClick={props.handleProjectAdd}>
+            <AddIcon />
+          </IconButton>
+        </div>
       </div>
       <br />
       {props.projects.map((project, index) => (
@@ -164,18 +175,22 @@ export default function Editor(props) {
               name="title"
               placeholder={"Title"}
               value={project.title}
-              style={{ width: "100%"}}
+              style={{ width: "100%" }}
             />
             <ButtonGroup aria-label="outlined primary button group">
-            <IconButton color="primary" onClick={props.handleMoveProjectUp}>
-              <KeyboardArrowUpIcon/>
-            </IconButton>
-            <IconButton color="primary" onClick={props.handleMoveProjectDown}>
-              <KeyboardArrowDownIcon/>
-            </IconButton>
-            <IconButton color="danger" variant="outlined" onClick={props.handleProjectDelete}>
-              <DeleteIcon />
-            </IconButton>
+              <IconButton color="primary" onClick={props.handleMoveProjectUp}>
+                <KeyboardArrowUpIcon />
+              </IconButton>
+              <IconButton color="primary" onClick={props.handleMoveProjectDown}>
+                <KeyboardArrowDownIcon />
+              </IconButton>
+              <IconButton
+                color="danger"
+                variant="outlined"
+                onClick={props.handleProjectDelete}
+              >
+                <DeleteIcon />
+              </IconButton>
             </ButtonGroup>
           </div>
           <br />
@@ -206,7 +221,11 @@ export default function Editor(props) {
               value={education.degree}
               style={{ width: "100%", marginRight: "20px" }}
             />
-            <IconButton color="danger" variant="outlined" onClick={props.handleEducationDelete}>
+            <IconButton
+              color="danger"
+              variant="outlined"
+              onClick={props.handleEducationDelete}
+            >
               <DeleteIcon />
             </IconButton>
           </div>
