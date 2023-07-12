@@ -154,7 +154,7 @@ function App() {
   };
 
   const handleProjectDelete = (event) => {
-    const id = event.currentTarget.parentNode.parentNode.getAttribute("id");
+    const id = event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
     setProjects(
       projects.filter((project) => {
         return project.id !== id;
@@ -260,6 +260,34 @@ function App() {
     }
     if (Number(itemIndex) !== certifications.length - 1) {
       setCerts(arrayMoveImmutable(certifications, itemIndex, itemIndex + 1));
+    }
+  }
+
+  function handleMoveProjectUp(event) {
+    var i, itemIndex;
+    const id =
+      event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+    for (i in projects) {
+      if (projects[i].id === id) {
+        itemIndex = i;
+      }
+    }
+    if (Number(itemIndex) !== 0) {
+      setProjects(arrayMoveImmutable(projects, itemIndex, itemIndex - 1));
+    }
+  }
+
+  function handleMoveProjectDown(event) {
+    var i, itemIndex;
+    const id =
+      event.currentTarget.parentNode.parentNode.parentNode.getAttribute("id");
+    for (i in projects) {
+      if (projects[i].id === id) {
+        itemIndex = i;
+      }
+    }
+    if (Number(itemIndex) !== projects.length - 1) {
+      setProjects(arrayMoveImmutable(projects, itemIndex, itemIndex + 1));
     }
   }
 
@@ -579,6 +607,8 @@ function App() {
             handleCertDelete={handleCertDelete}
             handleMoveCertUp={handleMoveCertUp}
             handleMoveCertDown={handleMoveCertDown}
+            handleMoveProjectUp={handleMoveProjectUp}
+            handleMoveProjectDown={handleMoveProjectDown}
             setShowCert={setShowCert}
           />
         ) : (

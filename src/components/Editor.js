@@ -158,16 +158,25 @@ export default function Editor(props) {
           id={project.id}
           onChange={props.handleProjectChange}
         >
-          <div className="editor-heading">
+          <div className="editor-sub-heading">
             <Input
+              className="editor-sub-heading-input"
               name="title"
               placeholder={"Title"}
               value={project.title}
-              style={{ width: "100%", marginRight: "20px" }}
+              style={{ width: "100%"}}
             />
+            <ButtonGroup aria-label="outlined primary button group">
+            <IconButton color="primary" onClick={props.handleMoveProjectUp}>
+              <KeyboardArrowUpIcon/>
+            </IconButton>
+            <IconButton color="primary" onClick={props.handleMoveProjectDown}>
+              <KeyboardArrowDownIcon/>
+            </IconButton>
             <IconButton color="danger" variant="outlined" onClick={props.handleProjectDelete}>
               <DeleteIcon />
             </IconButton>
+            </ButtonGroup>
           </div>
           <br />
           <Input name="skills" placeholder={"Skills"} value={project.skills} />
