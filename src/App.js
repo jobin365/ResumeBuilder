@@ -201,11 +201,11 @@ function App() {
 
   function handleCertAdd(event) {
     setCerts([
-      ...certifications,
       {
         id: uuidv4(),
         title: "",
       },
+      ...certifications,
     ]);
   }
 

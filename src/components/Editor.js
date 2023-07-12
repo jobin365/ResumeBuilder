@@ -81,12 +81,13 @@ export default function Editor(props) {
       <br />
       {props.certifications.map((cert, index) => (
         <div key={cert.id} id={cert.id} onChange={props.handleCertChange}>
-          <div className="editor-heading">
+          <div className="editor-sub-heading">
             <Input
+              className="editor-sub-heading-input"
               name="title"
               placeholder={"Certification name"}
               value={cert.title}
-              style={{ width: "100%", marginRight: "20px" }}
+              style={{ width: "100%"}}
             />
             <ButtonGroup aria-label="outlined primary button group">
             <IconButton color="primary" onClick={props.handleMoveCertUp}>

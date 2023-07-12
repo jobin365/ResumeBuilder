@@ -22,6 +22,27 @@ p {
   align-items: center;
 }
 
+.editor-sub-heading{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.editor-sub-heading-input{
+  margin-right: 20px;
+}
+
+@media only screen and (max-width: 500px) {
+  .editor-sub-heading{
+    flex-direction: column;
+  }
+  .editor-sub-heading-input{
+    margin-right: 0px;
+    margin-bottom: 10px;
+  }
+
+}
+
 ul{
   padding-left: 20px;
 }
