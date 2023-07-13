@@ -42,12 +42,20 @@ export default function Editor(props) {
         onChange={(e) => props.setLinkedIn(e.target.value)}
       />
       <br />
+      <div style={{display:"flex"}}>
       <Input
         name="github"
         placeholder="GitHub profile URL"
         value={props.github}
+        style={{width:"100%"}}
         onChange={(e) => props.setGitHub(e.target.value)}
       />
+      <Switch
+        checked={props.showGithub}
+        onChange={(event) => props.setShowGithub(event.target.checked)}
+        style={{ marginLeft: "20px" }}
+      />
+      </div>
       <br />
       <Textarea
         placeholder="Skill separated by comma without space"

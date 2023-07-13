@@ -52,6 +52,7 @@ function App() {
 
   const [showCert, setShowCert] = useState(true);
   const [showProjects, setShowProjects] = useState(true);
+  const [showGithub, setShowGithub] = useState(true);
 
   const prod = false;
   const w = window.innerWidth;
@@ -395,13 +396,13 @@ function App() {
             <Text style={[styles.paragraph]}>{linkedin}</Text>
           </View>
 
-          <View style={[styles.textwithicon, { marginTop: 2 }]}>
+          {showGithub&&<View style={[styles.textwithicon, { marginTop: 2 }]}>
             <Image
               src={githubIcon}
               style={{ width: 15, marginRight: 5 }}
             ></Image>
             <Text style={[styles.paragraph]}>{github}</Text>
-          </View>
+          </View>}
 
           <Text style={[styles.subHeading]}>Summary</Text>
           <Text style={[styles.paragraph, {}]}>{summary}</Text>
@@ -600,6 +601,7 @@ function App() {
             setCerts={setCerts}
             showCert={showCert}
             showProjects={showProjects}
+            showGithub={showGithub}
             handleEducationAdd={handleEducationAdd}
             handleEducationChange={handleEducationChange}
             handleEducationDelete={handleEducationDelete}
@@ -618,6 +620,7 @@ function App() {
             handleMoveProjectDown={handleMoveProjectDown}
             setShowCert={setShowCert}
             setShowProjects={setShowProjects}
+            setShowGithub={setShowGithub}
           />
         ) : (
           <HomePage />
